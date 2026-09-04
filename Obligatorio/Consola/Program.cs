@@ -1,4 +1,5 @@
-﻿namespace Consola
+﻿using Dominio;
+namespace Consola
 {
     internal class Program
     {
