@@ -1,6 +1,6 @@
 ﻿namespace Dominio
 {
-    public class Investigador
+    public class Investigador : IValidable
     {
         #region ATRIBUTOS
         private string _email;
@@ -15,6 +15,13 @@
 
         #region CONSTRUCTOR
 
+        public void Investigador(string email, string contrasena, string nombre, Rol rol)
+        {
+            _email = email;
+            _contrasena = contrasena;
+            _nombre = nombre;
+            _rol = rol;
+        }
         #endregion
     }
 }

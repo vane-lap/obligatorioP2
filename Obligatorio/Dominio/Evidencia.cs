@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Dominio
 {
-    internal class Evidencia
+    public class Evidencia : IValidable
     {
         #region ATRIBUTOS
         private int _id;
@@ -21,6 +21,12 @@ namespace Dominio
 
         #region CONSTRUCTOR
 
+        public void Evidencia(DateTime fecha, string descripcion, Tipo tipo)
+        {
+            _fecha = fecha;
+            _descripcion = descripcion;
+            _tipo = tipo;
+        }
         #endregion
     }
 }

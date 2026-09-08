@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Dominio
 {
-    public class Sospechoso
-    {
+    public class Sospechoso : IValidable
         #region ATRIBUTOS
         private string _nombre;
         private string _cedula;
@@ -19,6 +18,13 @@ namespace Dominio
 
         #region CONSTRUCTOR
 
+        public void Sospechoso(string nombre, string cedula, DateTime fechaNac, bool antecedentes)
+        {
+            _nombre = nombre;
+            _cedula = cedula;
+            _fechaNac = fechaNac;
+            _antecedentes = antecedentes;
+        }
         #endregion
     }
 }
