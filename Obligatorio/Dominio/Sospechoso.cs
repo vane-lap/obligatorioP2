@@ -1,6 +1,7 @@
 ﻿using Dominio.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Dominio
@@ -20,7 +21,9 @@ namespace Dominio
             _fechaNac = fechaNac;
             _antecedentes = antecedentes;
         }
-        
+
+        public string Cedula { get { return _cedula; } }
+
         public void Validar()
         {
             if (!string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser vacío");

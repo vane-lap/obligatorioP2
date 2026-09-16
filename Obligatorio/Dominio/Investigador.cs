@@ -21,6 +21,7 @@ namespace Dominio
         }
 
         public Rol Rol { get {return _rol;}}
+        public string Email { get { return _email; } }
 
         public void Validar()
         {
