@@ -16,14 +16,16 @@ namespace Dominio
             _infraganti = infraganti;
         }
 
+
+        public override void Validar()
+        {
+            base.Validar();
+            if (_calidad <= 0 && _calidad > 5) throw new Exception("Debe de ser un número del 1 al 5");
+            
+        }
         public override int CalcularPeso()
         {
             throw new NotImplementedException();
-        }
-        public override void Validar()
-        {
-            if (_calidad <= 0 && _calidad > 5) throw new Exception("Debe de ser un número del 1 al 5");
-            base.Validar();
         }
     }
 }

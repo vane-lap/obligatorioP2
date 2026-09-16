@@ -13,13 +13,15 @@ namespace Dominio
         {
             _tieneHuellas = tieneHuellas;
         }
-        public override int CalcularPeso()
-        {
-            throw new NotImplementedException();
-        }
+
         public override void Validar()
         {
             base.Validar();
+        }
+
+        public override int CalcularPeso()
+        {
+            throw new NotImplementedException();
         }
     }
 }

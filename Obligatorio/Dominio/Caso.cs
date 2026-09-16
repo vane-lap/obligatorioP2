@@ -35,11 +35,9 @@ namespace Dominio
             if (!string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser vacío");
             if (!string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripción no puede ser vacía");
             if (_sospechoso == null) throw new Exception("El caso debe de tener un sospechoso");
-            //if (_investigador == null || !_investigador.Rol.Equals(Rol.DETECTIVE)) throw new Exception("El caso debe de tener un investigador de tipo detective asignado");
-            if (_investigador == null || _investigador.Rol != Rol.DETECTIVE) throw new Exception("El caso debe de tener un investigador de tipo detective asignado");
+            if (_investigador == null) throw new Exception("El caso debe de tener un investigador");
+            if (!_investigador.Rol.Equals(Rol.DETECTIVE)) throw new Exception("El caso debe de tener un investigador de tipo detective asignado");
             if (_evidencias == null) throw new Exception("El caso no puede tener una lista de evidencias nula");
-            // if (_evidencias == null || _evidencias.Count == 0 ) throw new Exception("*");
-            // * definir si la lista de evidencias puede ser vacia o tiene que tener al menos una evidencia (ver UML) (la letra dice "puede" tener)
         }
 
         public override string ToString() 

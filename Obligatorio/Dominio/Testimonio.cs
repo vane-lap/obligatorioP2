@@ -20,9 +20,9 @@ namespace Dominio
 
         public override void Validar()
         {
+            base.Validar();
             if (!string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser vacío");
             if (!Enum.IsDefined(typeof(Credibilidad), _credibilidad)) throw new Exception("No existe credibilidad de ese tipo");
-            base.Validar();
         }
         public override int CalcularPeso()
         {
