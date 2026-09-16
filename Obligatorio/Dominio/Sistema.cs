@@ -4,11 +4,7 @@ using System.Text;
 
 namespace Dominio
 {
-    public enum Tipo
+    internal class Sistema
     {
-        Fisica,
-        Grabacion,
-        Testimonio
-
     }
 }

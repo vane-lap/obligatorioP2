@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Dominio
+namespace Dominio.Interfaces
 {
-    internal interface IValidable
+    public interface IValidable
     {
         public void Validar();
     }
