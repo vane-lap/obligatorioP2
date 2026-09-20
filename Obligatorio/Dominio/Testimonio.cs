@@ -24,6 +24,12 @@ namespace Dominio
             if (!string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser vacío");
             if (!Enum.IsDefined(typeof(Credibilidad), _credibilidad)) throw new Exception("No existe credibilidad de ese tipo");
         }
+        
+        public override string ToString()
+        {
+            return base.ToString() + $", de tipo Testimonio de {_nombre} y una credibilidad {_credibilidad}";
+        }
+        
         public override int CalcularPeso()
         {
             throw new NotImplementedException();

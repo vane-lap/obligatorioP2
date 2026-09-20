@@ -19,6 +19,17 @@ namespace Dominio
         private List<Evidencia> _evidencias;
         #endregion
 
+		public int Id
+		{
+			get { return _id; }
+		}
+
+		public string Nombre
+		{
+			get { return _nombre; }
+		}
+
+
         public Caso(string nombre, string descripcion, bool cerrado, Sospechoso sospechoso, Investigador investigador, List<Evidencia> evidencias)
         {
             _id = _ultId++;
@@ -43,6 +54,11 @@ namespace Dominio
         public override string ToString() 
         {
             return ("");
+        }
+
+		public override bool Equals(object? obj)
+        {
+            return obj is Caso unC && _id == unC._id || _nombre.ToUpper() == unC._nombre.ToUpper();
         }
 
         public void RecomendarImputacion()

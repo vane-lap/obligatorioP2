@@ -23,6 +23,19 @@ namespace Dominio
             if (_calidad <= 0 && _calidad > 5) throw new Exception("Debe de ser un número del 1 al 5");
             
         }
+        
+        public override string ToString()
+        {
+            string retorno = base.ToString() + $", de tipo Grabacion y una calidad de {_calidad} de 5";
+            if (_infraganti)
+                retorno += " captado infraganti";
+            else
+            {
+                retorno += " sin ser captado infraganti";
+            }
+            return retorno;
+        }
+        
         public override int CalcularPeso()
         {
             throw new NotImplementedException();
