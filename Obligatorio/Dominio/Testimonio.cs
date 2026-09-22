@@ -12,6 +12,9 @@ namespace Dominio
         private Credibilidad _credibilidad;
         #endregion
 
+
+        
+
         public Testimonio(DateTime fecha, string descripcion, string nombre, Credibilidad credibilidad) : base(fecha, descripcion)
         {
             _nombre = nombre;
@@ -21,7 +24,7 @@ namespace Dominio
         public override void Validar()
         {
             base.Validar();
-            if (!string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser vacío");
+            if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser vacío");
             if (!Enum.IsDefined(typeof(Credibilidad), _credibilidad)) throw new Exception("No existe credibilidad de ese tipo");
         }
         public override int CalcularPeso()
@@ -29,4 +32,5 @@ namespace Dominio
             throw new NotImplementedException();
         }
     }
+
 }

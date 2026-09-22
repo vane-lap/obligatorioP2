@@ -24,7 +24,7 @@ namespace Dominio
         public virtual void Validar()
         {
             if ( _fecha == DateTime.MinValue && _fecha > DateTime.Today) throw new Exception("La fecha no puede ser vacía ni mayor al día de hoy");
-            if (!string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripción no puede ser vacía");
+            if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripción no puede ser vacía");
         }
 
         public abstract int CalcularPeso();

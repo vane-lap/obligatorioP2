@@ -26,15 +26,15 @@ namespace Dominio
 
         public void Validar()
         {
-            if (!string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser vacío");
-            if (!string.IsNullOrEmpty(_cedula)) throw new Exception("La cédula no puede ser vacía"); // sistema va a tener que tener una lista de sospechosos para validar si hay otro sospechoso con misma cedula
+            if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser vacío");
+            if (string.IsNullOrEmpty(_cedula)) throw new Exception("La cédula no puede ser vacía");
             if (_fechaNac == DateTime.MinValue) throw new Exception("La fecha de nacimiento no puede ser vacía");
         }
 
         public override string ToString()
         {
-            return ("");
+            string tieneAntecedentes = _antecedentes ? "Si" : "No";
+            return ($"Nombre: {_nombre} CI: {_cedula} Fecha de Nacimiento: {_fechaNac.ToString("dd/MM/yyyy")} Tiene antecedentes: {tieneAntecedentes}");
         }
-
     }
 }
