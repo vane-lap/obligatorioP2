@@ -44,7 +44,7 @@ namespace Dominio
         
         public override bool Equals(object? obj)
         {
-            return obj is Evidencia unE && _id == unE._id || _descripcion.ToUpper() == unE._descripcion.ToUpper();
+            return obj is Evidencia unE && _descripcion.ToUpper() == unE._descripcion.ToUpper();
         }
 
         public abstract int CalcularPeso();

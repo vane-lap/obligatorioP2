@@ -7,66 +7,60 @@ namespace Consola
         static void Main(string[] args)
         {
             miSistema = new Sistema();
-
             string opcion = "";
             while (opcion != "0")
             {
                 MostrarMenu();
-                opcion = PedirTexto("Ingrese una opcion > ");
+                opcion = PedirTexto("Ingrese una opción > ");
 
                 switch (opcion)
                 {
                     case "1":
                         Console.Clear();
-                        Console.WriteLine("Saliendo");
+                        //ListadoDeCasos();
                         break;
                     case "2":
                         Console.Clear();
-                        Console.WriteLine("Saliendo");
+                        //OpcionAltaMarca();
                         break;
                     case "3":
                         Console.Clear();
-                        Console.WriteLine("Saliendo");
+                        //OpcionAltaMarca();
                         break;
                     case "4":
                         Console.Clear();
-                        Console.WriteLine("Saliendo");
-                        break;
-                    case "5":
-                        Console.Clear();
-                        Console.WriteLine("Saliendo");
+                        ListadoDeSospechosos();
                         break;
                     case "0":
                         Console.WriteLine("Saliendo");
                         break;
                     default:
-                        MostrarError("ERROR: Opcion invalida");
+                        MostrarError("ERROR: Opción inválida");
                         PressToContinue();
                         break;
                 }
             }
         }
-        
+
         static void MostrarMenu()
         {
             Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("*** MENU ***");
+            Console.WriteLine("*** MENÚ ***");
             Console.ResetColor();
-            Console.WriteLine("1 - Alta de nueva marca");
-            Console.WriteLine("2 - Listado de marcas");
-            Console.WriteLine("3 - Listado de autos");
-            Console.WriteLine("4 - Autos mayores a un año");
-            Console.WriteLine("5 - Autos por marca");
+            Console.WriteLine("1 - Listado de casos");
+            Console.WriteLine("2 - Buscar caso por investigador");
+            Console.WriteLine("3 - Dar de alta a un sospechoso");
+            Console.WriteLine("4 - Listado de sospechosos");
             Console.WriteLine("0 - Salir");
         }
-        
-        static void PressToContinue()
+
+        static string PedirTexto(string mensaje)
         {
-            Console.WriteLine();
-            Console.WriteLine("Presione una tecla para volver al menu");
-            Console.ReadKey();
+            Console.Write(mensaje);
+            string texto = Console.ReadLine();
+            return texto;
         }
 
         static void MostrarError(string mensaje)
@@ -76,73 +70,33 @@ namespace Consola
             Console.ResetColor();
         }
 
-        static void MostrarExito(string mensaje)
+        static void PressToContinue()
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(mensaje);
-            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine("Presione cualquier tecla para volver al menú");
+            Console.ReadKey();
         }
 
-        static string PedirTexto(string mensaje)
+        // pasar la logica de listar los sospechosos con antecedentes a Sistema y desde program llamar el metodo 
+        static void ListadoDeSospechosos()
         {
-            Console.Write(mensaje);
-            string texto = Console.ReadLine();
-            return texto;
-        }
-        
-        static int PedirEntero(string mensaje)
-        {
-            Console.Write(mensaje);
-            string enteroString = Console.ReadLine();
-            int enteroConvertido = 0;
-
-            while (!int.TryParse(enteroString, out enteroConvertido))
+            Console.WriteLine("---- Listado de Sospechosos ----");
+            Console.WriteLine();
+            List<Sospechoso> todasLasSospechosos = miSistema.Sospechosos;
+            if (todasLasSospechosos.Count == 0)
             {
-                MostrarError("ERROR DE INGRESO");
-                Console.Write(mensaje);
-                enteroString = Console.ReadLine();
+                MostrarError("No hay sospechosos en el sistema");
             }
-
-            return enteroConvertido;
-        }
-        
-        static DateTime LeerFecha(string mensaje)
-        {
-            bool exito = false;
-            DateTime fecha = new DateTime();
-            while (!exito)
+            else
             {
-                Console.Write(mensaje + " [DD/MM/YYYY]:");
-                exito = DateTime.TryParse(Console.ReadLine(), out fecha);
-
-                if (!exito) MostrarError("ERROR: Debe ingresar una fecha en formato DD/MM/YYYY");
-            }
-            return fecha;
-        }
-
-        static bool LeerBooleano(string mensaje)
-        {
-            bool exito = false;
-            bool resultado = false;
-            while (!exito)
-            {
-                Console.Write(mensaje + " [S/N]:");
-                string booleanoString = Console.ReadLine();
-                if (booleanoString.ToUpper() == "S")
+                foreach (Sospechoso unS in todasLasSospechosos)
                 {
-                    resultado = true;
-                    exito = true;
+                    Console.WriteLine(unS);
                 }
-                else if (booleanoString.ToUpper() == "N")
-                {
-                    resultado = false;
-                    exito = true;
-                }
-
-                if (!exito) MostrarError("ERROR: Debe ingresar solo S o N");
             }
-
-            return resultado;
+            PressToContinue();
         }
+
+
     }
 }
