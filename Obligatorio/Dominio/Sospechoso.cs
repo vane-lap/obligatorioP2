@@ -36,5 +36,11 @@ namespace Dominio
             string tieneAntecedentes = _antecedentes ? "Si" : "No";
             return ($"Nombre: {_nombre} CI: {_cedula} Fecha de Nacimiento: {_fechaNac.ToString("dd/MM/yyyy")} Tiene antecedentes: {tieneAntecedentes}");
         }
+
+		public override bool Equals(object? obj)
+        {
+            return obj is Sospechoso unS && _cedula.ToUpper() == unS._cedula.ToUpper();
+        }
+
     }
 }

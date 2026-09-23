@@ -36,9 +36,12 @@ namespace Dominio
         }
 
 
-        public void AltaInvestigador()
+        public void AltaInvestigador(string email, string contrasena, string nombre, Rol rol)
         {
-
+			Investigador i = new Investigador(email, contrasena, nombre, rol);
+			i.Validar();
+			if (_investigadores.Contains(i)) throw new Exception("Ya existe un investigador con esos datos");
+			_investigadores.Add(i);
         }
 
         public void AltaCaso()

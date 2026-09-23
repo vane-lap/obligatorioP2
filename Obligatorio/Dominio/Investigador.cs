@@ -31,5 +31,10 @@ namespace Dominio
             if (!Enum.IsDefined(typeof(Rol), _rol)) throw new Exception("No existe rol de ese tipo");
         }
 
+		public override bool Equals(object? obj)
+        {
+            return obj is Investigador unI && _email == unI._email;
+        }
+
     }
 }
