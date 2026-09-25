@@ -2,6 +2,7 @@
 using Dominio.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace Dominio
@@ -29,8 +30,17 @@ namespace Dominio
 			get { return _nombre; }
 		}
 
+        public List<Evidencia> Evidencias
+        {
+            get { return _evidencias; }
+        }
 
-        public Caso(string nombre, string descripcion, bool cerrado, Sospechoso sospechoso, Investigador investigador, List<Evidencia> evidencias)
+        public Investigador Investigador
+        {
+            get { return _investigador; }
+        }
+
+        public Caso(string nombre, string descripcion, bool cerrado, Sospechoso sospechoso, Investigador investigador)
         {
             _id = _ultId++;
             _nombre = nombre;
@@ -38,7 +48,7 @@ namespace Dominio
             _cerrado = cerrado;
             _sospechoso = sospechoso;
             _investigador = investigador;
-            _evidencias = evidencias;
+            _evidencias = new List<Evidencia>();
         }
        
         public void Validar()
@@ -48,17 +58,23 @@ namespace Dominio
             if (_sospechoso == null) throw new Exception("El caso debe de tener un sospechoso");
             if (_investigador == null) throw new Exception("El caso debe de tener un investigador");
             if (!_investigador.Rol.Equals(Rol.DETECTIVE)) throw new Exception("El caso debe de tener un investigador de tipo detective asignado");
-            if (_evidencias == null) throw new Exception("El caso no puede tener una lista de evidencias nula");
+            if (Evidencias == null) throw new Exception("El caso no puede tener una lista de evidencias nula");// revisar si es necesario
         }
 
         public override string ToString() 
         {
-            return ("");
+            string stringRetorno = ($"Id: {_id} - Nombre: {_nombre} - Evidencias: \n");
+
+            foreach (Evidencia unE in _evidencias)
+            {
+                stringRetorno += unE.ToString() + "\n";
+            }
+            return stringRetorno;
         }
 
 		public override bool Equals(object? obj)
         {
-            return obj is Caso unC && _id == unC._id || _nombre.ToUpper() == unC._nombre.ToUpper();
+            return obj is Caso unC && _nombre.ToUpper() == unC._nombre.ToUpper();
         }
 
         public void RecomendarImputacion()

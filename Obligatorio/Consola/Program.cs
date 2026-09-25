@@ -1,4 +1,6 @@
 ﻿using Dominio;
+using System.Security.Policy;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Consola
 {
     internal class Program
@@ -17,19 +19,19 @@ namespace Consola
                 {
                     case "1":
                         Console.Clear();
-                        //ListadoDeCasos();
+                        MostrarListadoCasos();
                         break;
                     case "2":
                         Console.Clear();
-                        //OpcionAltaMarca();
+                        BuscadorDeCasosPorInvestigador();
                         break;
                     case "3":
                         Console.Clear();
-                        //OpcionAltaMarca();
+                        AltaSospechoso();
                         break;
                     case "4":
                         Console.Clear();
-                        ListadoDeSospechosos();
+                        MostrarSospechososConAntecedentes();
                         break;
                     case "0":
                         Console.WriteLine("Saliendo");
@@ -77,19 +79,47 @@ namespace Consola
             Console.ReadKey();
         }
 
-        // pasar la logica de listar los sospechosos con antecedentes a Sistema y desde program llamar el metodo 
-        static void ListadoDeSospechosos()
+        static void MostrarListadoCasos()
         {
-            Console.WriteLine("---- Listado de Sospechosos ----");
+            Console.WriteLine("---- Listado de Casos ----");
             Console.WriteLine();
-            List<Sospechoso> todasLasSospechosos = miSistema.Sospechosos;
-            if (todasLasSospechosos.Count == 0)
+            foreach (Caso unC in miSistema.Casos)
             {
-                MostrarError("No hay sospechosos en el sistema");
+                Console.WriteLine(unC);
+            }
+            PressToContinue();
+        }
+
+        static void BuscadorDeCasosPorInvestigador()
+        {
+            string email = PedirTexto("Ingrese un mail: ");
+
+            List<Caso> casos = miSistema.CasosPorInvestigador(email); 
+
+            foreach (Caso unC in casos)
+            {
+                Console.WriteLine($"Id del caso: {unC.Id} - Nombre del caso: {unC.Nombre} - Nombre del investigador: {unC.Investigador.Nombre}");
+            }
+            PressToContinue();
+        }
+
+        static void AltaSospechoso()
+        {
+
+        }
+       
+        static void MostrarSospechososConAntecedentes()
+        {
+            Console.WriteLine("---- Listado de Sospechosos con Antecedentes ----");
+            Console.WriteLine();
+            List<Sospechoso> todosLosSospechososConAntecedentes = miSistema.ObtenerSospechososConAntecedentes();
+            if (todosLosSospechososConAntecedentes.Count == 0)
+            {
+                MostrarError("No hay sospechosos con antecedentes en el sistema");
             }
             else
             {
-                foreach (Sospechoso unS in todasLasSospechosos)
+                foreach (Sospechoso unS in todosLosSospechososConAntecedentes)
                 {
                     Console.WriteLine(unS);
                 }

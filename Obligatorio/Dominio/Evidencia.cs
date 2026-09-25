@@ -37,9 +37,9 @@ namespace Dominio
             if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripción no puede ser vacía");
         }
         
-        public virtual override string ToString() 
+        public override string ToString() 
         {
-            return ($"{Descripcion} - Fecha: {_fecha:dd/MM/yyyy}");
+            return ($"Descripcion: {Descripcion} - Fecha: {_fecha:dd/MM/yyyy}");
         }
         
         public override bool Equals(object? obj)

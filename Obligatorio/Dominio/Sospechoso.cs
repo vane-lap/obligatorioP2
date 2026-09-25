@@ -22,7 +22,15 @@ namespace Dominio
             _antecedentes = antecedentes;
         }
 
-        public string Cedula { get { return _cedula; } }
+        public string Cedula 
+        { 
+            get { return _cedula; } 
+        }
+
+        public bool TieneAntecedente
+        {
+            get { return _antecedentes; }
+        }
 
         public void Validar()
         {
@@ -33,7 +41,7 @@ namespace Dominio
 
         public override string ToString()
         {
-            string tieneAntecedentes = _antecedentes ? "Si" : "No";
+            string tieneAntecedentes = _antecedentes ? "Si" : "No"; 
             return ($"Nombre: {_nombre} CI: {_cedula} Fecha de Nacimiento: {_fechaNac.ToString("dd/MM/yyyy")} Tiene antecedentes: {tieneAntecedentes}");
         }
 
