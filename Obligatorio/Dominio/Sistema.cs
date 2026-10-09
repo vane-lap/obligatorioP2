@@ -123,16 +123,17 @@ namespace Dominio
 
         public void PrecargarInvestigadores()
         {
-            AltaInvestigador("fiscal1@email.com", "123456", "Juan Pérez", Rol.FISCAL);
-            AltaInvestigador("fiscal2@email.com", "123456", "Ana García", Rol.FISCAL);
-            AltaInvestigador("fiscal3@email.com", "123456", "Carlos López", Rol.FISCAL);
-            AltaInvestigador("fiscal4@email.com", "123456", "María Rodríguez", Rol.FISCAL);
-            AltaInvestigador("fiscal5@email.com", "123456", "Pedro Martínez", Rol.FISCAL);
-            AltaInvestigador("detective1@email.com", "123456", "Luis Fernández", Rol.DETECTIVE);
-            AltaInvestigador("detective2@email.com", "123456", "Sofía González", Rol.DETECTIVE);
-            AltaInvestigador("detective3@email.com", "123456", "Diego Silva", Rol.DETECTIVE);
-            AltaInvestigador("detective4@email.com", "123456", "Laura Pereira", Rol.DETECTIVE);
-            AltaInvestigador("detective5@email.com", "123456", "Martín Castro", Rol.DETECTIVE);
+            AltaInvestigador("fiscal1@investigacion.gob", "Pass1234!", "Carlos Gómez", Rol.FISCAL);
+            AltaInvestigador("fiscal2@investigacion.gob", "Pass1234!", "María Rodríguez", Rol.FISCAL);
+            AltaInvestigador("fiscal3@investigacion.gob", "Pass1234!", "Juan Martínez", Rol.FISCAL);
+            AltaInvestigador("fiscal4@investigacion.gob", "Pass1234!", "Laura Fernández", Rol.FISCAL);
+            AltaInvestigador("fiscal5@investigacion.gob", "Pass1234!", "Roberto Sánchez", Rol.FISCAL);
+
+            AltaInvestigador("detective1@investigacion.gob", "Pass1234!", "Ana López", Rol.DETECTIVE);
+            AltaInvestigador("detective2@investigacion.gob", "Pass1234!", "Diego Pérez", Rol.DETECTIVE);
+            AltaInvestigador("detective3@investigacion.gob", "Pass1234!", "Sofia Morales", Rol.DETECTIVE);
+            AltaInvestigador("detective4@investigacion.gob", "Pass1234!", "Gabriel Romero", Rol.DETECTIVE);
+            AltaInvestigador("detective5@investigacion.gob", "Pass1234!", "Lucía Torres", Rol.DETECTIVE);
         }
 
         public void PrecargaSospechosos()
@@ -156,85 +157,70 @@ namespace Dominio
 
         public void PrecargarCasos()
         {
-            AltaCaso("Caso 1", "Investigación por robo", false, "12345678", "detective1@email.com");
-            AltaCaso("Caso 2", "Investigación por fraude", true, "23456789", "detective2@email.com");
-            AltaCaso("Caso 3", "Investigación por vandalismo", false, "34567890", "detective3@email.com");
-            AltaCaso("Caso 4", "Investigación por amenazas", true, "45678901", "detective4@email.com");
-            AltaCaso("Caso 5", "Investigación por estafa", false, "56789012", "detective5@email.com");
-            AltaCaso("Caso 6", "Investigación por hurto", true, "67890123", "detective1@email.com");
-            AltaCaso("Caso 7", "Investigación por secuestro", false, "78901234", "detective2@email.com");
-            AltaCaso("Caso 8", "Investigación por extorsión", true, "89012345", "detective3@email.com");
-            AltaCaso("Caso 9", "Investigación por daños", false, "11223344", "detective4@email.com");
-            AltaCaso("Caso 10", "Investigación por contrabando", true, "22334455", "detective5@email.com");
-            AltaCaso("Caso 11", "Investigación por allanamiento", false, "33445566", "detective1@email.com");
-            AltaCaso("Caso 12", "Investigación por corrupción", true, "44556677", "detective2@email.com");
-            AltaCaso("Caso 13", "Investigación por desaparición", false, "55667788", "detective3@email.com");
-            AltaCaso("Caso 14", "Investigación por falsificación", true, "66778899", "detective4@email.com");
-            AltaCaso("Caso 15", "Investigación por incendio", false, "77889900", "detective5@email.com");
+            AltaCaso("Robo en Joyería Central", "Sustracción de joyas de alta gama.", false, "12345678", "detective1@investigacion.gob");
+            AltaCaso("Fraude Bancario Norte", "Desvío ilegal de fondos corporativos.", false, "23456789", "detective2@investigacion.gob");
+            AltaCaso("Hurto en Museo Nacional", "Sustracción de pintura histórica.", true, "34567890", "detective3@investigacion.gob");
+            AltaCaso("Ciberataque Financiero", "Acceso no autorizado a servidores.", false, "45678901", "detective4@investigacion.gob");
+            AltaCaso("Contrabando Marina", "Carga no declarada en puerto comercial.", true, "56789012", "detective5@investigacion.gob");
+            AltaCaso("Estafa Inmobiliaria", "Venta fraudulenta de propiedades ficticias.", false, "67890123", "detective1@investigacion.gob");
+            AltaCaso("Falsificación de Documentos", "Emisión de pasaportes apócrifos.", true, "78901234", "detective2@investigacion.gob");
+            AltaCaso("Extorsión Comercial", "Amenazas a comercios del centro.", false, "89012345", "detective3@investigacion.gob");
+            AltaCaso("Robo de Vehículo de Carga", "Sustracción de camión con mercadería.", false, "11223344", "detective4@investigacion.gob");
+            AltaCaso("Sabotaje Industrial", "Daños intencionados en maquinaria de fábrica.", true, "22334455", "detective5@investigacion.gob");
         }
 
 
         public void PrecargarEvidencias()
         {
-            AltaEvidenciaFisica(new DateTime(2023, 1, 10), "Arma hallada en la escena", true, _casos[0]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 1, 11), "Cámara de seguridad local", 4, true, _casos[0]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 1, 12), "Declaración del testigo principal", "Juan Pérez", Credibilidad.ALTO, _casos[0]);
+            AltaEvidenciaFisica(new DateTime(2024, 1, 15), "Huella dactilar en la vitrina principal", true, _casos[0]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 1, 15), "Video de cámara de seguridad de la entrada", 4, true, _casos[0]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 1, 16), "Declaración del guardia de turno", "Carlos Pérez", Credibilidad.ALTO, _casos[0]);
+            AltaEvidenciaFisica(new DateTime(2024, 1, 16), "Herramienta de corte olvidada en la escena", false, _casos[0]);
 
-            AltaEvidenciaFisica(new DateTime(2023, 2, 5), "Documentos falsificados", false, _casos[1]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 2, 6), "Llamada telefónica grabada", 3, false, _casos[1]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 2, 7), "Testimonio del contador", "María Gómez", Credibilidad.NORMAL, _casos[1]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 2, 10), "Registro de audio de llamada extorsiva", 3, false, _casos[1]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 2, 11), "Testimonio del contador de la empresa", "María Gómez", Credibilidad.NORMAL, _casos[1]);
+            AltaEvidenciaFisica(new DateTime(2024, 2, 12), "Dispositivo USB hallado en la oficina", true, _casos[1]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 2, 12), "Declaración del analista de sistemas", "Juan Rodríguez", Credibilidad.ALTO, _casos[1]);
 
-            AltaEvidenciaFisica(new DateTime(2023, 3, 1), "Restos de pintura en la pared", true, _casos[2]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 3, 2), "Video de cámara móvil", 2, true, _casos[2]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 3, 3), "Declaración del vecino", "Carlos López", Credibilidad.BAJO, _casos[2]);
+            AltaEvidenciaFisica(new DateTime(2024, 3, 5), "Marco de la pintura dañado y abandonado", true, _casos[2]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 3, 5), "Grabación del pasillo lateral del museo", 5, true, _casos[2]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 3, 6), "Testimonio del guía del turno noche", "Roberto Martínez", Credibilidad.BAJO, _casos[2]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 3, 6), "Audio de la alarma de seguridad", 2, false, _casos[2]);
 
-            AltaEvidenciaFisica(new DateTime(2023, 4, 15), "Nota manuscrita con amenazas", true, _casos[3]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 4, 16), "Audio de correo de voz", 5, false, _casos[3]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 4, 17), "Testimonio de la víctima", "Ana Rodríguez", Credibilidad.ALTO, _casos[3]);
+            AltaEvidenciaFisica(new DateTime(2024, 4, 1), "Disco duro extraído del servidor afectado", false, _casos[3]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 4, 2), "Declaración del administrador de red", "Ana López", Credibilidad.ALTO, _casos[3]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 4, 2), "Video del centro de cómputos", 3, false, _casos[3]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 4, 3), "Testimonio de empleado del área IT", "Diego Sánchez", Credibilidad.NORMAL, _casos[3]);
 
-            AltaEvidenciaFisica(new DateTime(2023, 5, 20), "Tarjeta de crédito clonada", false, _casos[4]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 5, 21), "Grabación de cajero automático", 4, true, _casos[4]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 5, 22), "Declaración del cajero", "Luis Martínez", Credibilidad.NORMAL, _casos[4]);
+            AltaEvidenciaFisica(new DateTime(2024, 5, 20), "Muestra de mercadería ilegal incautada", false, _casos[4]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 5, 20), "Grabación con dron del buque en puerto", 4, true, _casos[4]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 5, 21), "Declaración del inspector aduanero", "Fernando Torres", Credibilidad.ALTO, _casos[4]);
+            AltaEvidenciaFisica(new DateTime(2024, 5, 21), "Contenedor adulterado con restos biológicos", true, _casos[4]);
 
-            AltaEvidenciaFisica(new DateTime(2023, 6, 10), "Herramienta de corte encontrada", true, _casos[5]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 6, 11), "Video de vigilancia privada", 3, true, _casos[5]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 6, 12), "Testimonio del guardia de seguridad", "Pedro Sánchez", Credibilidad.ALTO, _casos[5]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 6, 10), "Testimonio de la víctima del fraude", "Lucía Fernández", Credibilidad.ALTO, _casos[5]);
+            AltaEvidenciaFisica(new DateTime(2024, 6, 11), "Contrato falso impreso con firmas apócrifas", true, _casos[5]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 6, 11), "Grabación de videollamada con la inmobiliaria", 3, false, _casos[5]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 6, 12), "Declaración del escribano público", "Gabriel Ruiz", Credibilidad.NORMAL, _casos[5]);
 
-            AltaEvidenciaFisica(new DateTime(2023, 7, 1), "Prenda de vestir abandonada", true, _casos[6]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 7, 2), "Grabación de cámara de peaje", 1, false, _casos[6]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 7, 3), "Declaración de informante", "Sofia Fernández", Credibilidad.BAJO, _casos[6]);
+            AltaEvidenciaFisica(new DateTime(2024, 7, 1), "Pasaportes falsificados incautados", true, _casos[6]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 7, 2), "Testimonio del oficial de fronteras", "Patricia Díaz", Credibilidad.ALTO, _casos[6]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 7, 2), "Video de cámara de la oficina de migración", 5, true, _casos[6]);
+            AltaEvidenciaFisica(new DateTime(2024, 7, 3), "Sello oficial clonado hallado en el lugar", true, _casos[6]);
 
-            AltaEvidenciaFisica(new DateTime(2023, 8, 8), "Dispositivo USB incautado", false, _casos[7]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 8, 9), "Grabación de interceptación telefónica", 5, false, _casos[7]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 8, 10), "Testimonio del socio comercial", "Diego Torres", Credibilidad.NORMAL, _casos[7]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 8, 15), "Audio de mensaje de voz con amenazas", 2, false, _casos[7]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 8, 16), "Declaración del dueño del local extorsionado", "Gonzalo Silva", Credibilidad.ALTO, _casos[7]);
+            AltaEvidenciaFisica(new DateTime(2024, 8, 16), "Nota imprescripta manuscrita de la amenaza", true, _casos[7]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 8, 17), "Testimonio de un cliente testigo del hecho", "Sofia Romero", Credibilidad.NORMAL, _casos[7]);
 
-            AltaEvidenciaFisica(new DateTime(2023, 9, 14), "Objeto contundente con marcas", true, _casos[8]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 9, 15), "Video de cámara vehicular", 4, true, _casos[8]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 9, 16), "Declaración del transeúnte", "Lucía Díaz", Credibilidad.ALTO, _casos[8]);
+            AltaEvidenciaFisica(new DateTime(2024, 9, 8), "GPS rastreador hallado en la ruta", true, _casos[8]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 9, 8), "Video de cámara de seguridad de la peaje", 4, true, _casos[8]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 9, 9), "Declaración del chofer del camión", "Esteban Castro", Credibilidad.NORMAL, _casos[8]);
+            AltaEvidenciaFisica(new DateTime(2024, 9, 9), "Llave duplicada encontrada cerca del camión", false, _casos[8]);
 
-            AltaEvidenciaFisica(new DateTime(2023, 10, 5), "Caja con mercancía ilegal", true, _casos[9]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 10, 6), "Grabación de dron de vigilancia", 3, true, _casos[9]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 10, 7), "Testimonio del oficial de aduanas", "Jorge Ruiz", Credibilidad.ALTO, _casos[9]);
-
-            AltaEvidenciaFisica(new DateTime(2023, 11, 12), "Cerradura forzada", true, _casos[10]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 11, 13), "Video de timbre inteligente", 2, false, _casos[10]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 11, 14), "Declaración del propietario", "Elena Morales", Credibilidad.NORMAL, _casos[10]);
-
-            AltaEvidenciaFisica(new DateTime(2023, 12, 1), "Registro contable alterado", false, _casos[11]);
-            AltaEvidenciaGrabacion(new DateTime(2023, 12, 2), "Audio de reunión confidencial", 4, false, _casos[11]);
-            AltaEvidenciaTestimonio(new DateTime(2023, 12, 3), "Testimonio del auditor", "Gabriel Castro", Credibilidad.ALTO, _casos[11]);
-
-            AltaEvidenciaFisica(new DateTime(2024, 1, 18), "Pertenencia personal hallada", true, _casos[12]);
-            AltaEvidenciaGrabacion(new DateTime(2024, 1, 19), "Video de estación de trenes", 3, false, _casos[12]);
-            AltaEvidenciaTestimonio(new DateTime(2024, 1, 20), "Declaración de un familiar", "Valeria Ortíz", Credibilidad.NORMAL, _casos[12]);
-
-            AltaEvidenciaFisica(new DateTime(2024, 2, 8), "Sello oficial falsificado", false, _casos[13]);
-            AltaEvidenciaGrabacion(new DateTime(2024, 2, 9), "Grabación de seguridad del banco", 5, true, _casos[13]);
-            AltaEvidenciaTestimonio(new DateTime(2024, 2, 10), "Testimonio del perito calígrafo", "Fernando Silva", Credibilidad.ALTO, _casos[13]);
-
-            AltaEvidenciaFisica(new DateTime(2024, 3, 22), "Acelerante químico encontrado", true, _casos[14]);
-            AltaEvidenciaGrabacion(new DateTime(2024, 3, 23), "Video de cámara de tránsito", 4, true, _casos[14]);
-            AltaEvidenciaTestimonio(new DateTime(2024, 3, 24), "Declaración del bombero a cargo", "Ricardo Ramos", Credibilidad.ALTO, _casos[14]);
+            AltaEvidenciaFisica(new DateTime(2024, 10, 1), "Pieza de maquinaria saboteada", true, _casos[9]);
+            AltaEvidenciaGrabacion(new DateTime(2024, 10, 1), "Grabación de cámara térmica de la fábrica", 3, true, _casos[9]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 10, 2), "Testimonio del jefe de mantenimiento", "Hugo Morales", Credibilidad.ALTO, _casos[9]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 10, 2), "Declaración del supervisor de línea", "Laura Acosta", Credibilidad.BAJO, _casos[9]);
         }
 
 
