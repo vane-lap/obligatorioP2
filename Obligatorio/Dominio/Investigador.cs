@@ -36,6 +36,5 @@ namespace Dominio
         {
             return obj is Investigador unI && _email == unI._email;
         }
-
     }
 }

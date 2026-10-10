@@ -14,6 +14,7 @@ namespace Dominio
         private DateTime _fechaNac;
         private bool _antecedentes;
         #endregion
+
         public Sospechoso(string nombre, string cedula, DateTime fechaNac, bool antecedentes)
         {
             _nombre = nombre;
@@ -49,6 +50,5 @@ namespace Dominio
         {
             return obj is Sospechoso unS && _cedula.ToUpper() == unS._cedula.ToUpper();
         }
-
     }
 }

@@ -9,6 +9,7 @@ namespace Dominio
         #region ATRIBUTOS
         private bool _tieneHuellas;
         #endregion
+        
         public Fisica(DateTime fecha, string descripcion, bool tieneHuellas) : base(fecha, descripcion)
         {
             _tieneHuellas = tieneHuellas;

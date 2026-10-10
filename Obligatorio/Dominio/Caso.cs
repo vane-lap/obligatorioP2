@@ -79,8 +79,7 @@ namespace Dominio
 
         public void RecomendarImputacion()
         {
-
+			throw new NotImplementedException();
         }
-
     }
 }

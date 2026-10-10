@@ -10,12 +10,12 @@ namespace Dominio
         private int _calidad;
         private bool _infraganti;
         #endregion
+
         public Grabacion(DateTime fecha, string descripcion, int calidad, bool infraganti) : base(fecha, descripcion)
         {
             _calidad = calidad;
             _infraganti = infraganti;
         }
-
 
         public override void Validar()
         {

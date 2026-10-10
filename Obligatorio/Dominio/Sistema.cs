@@ -31,6 +31,14 @@ namespace Dominio
 
         public Sospechoso BuscarSospechosoPorCedula(string cedula)
         {
+			if (cedula == null) throw new Exeption("La cedula no puede ser vacia");
+			foreach (Sospechoso unS in _sospechosos)
+			{
+				if (unS.Cedula == cedula) return unS;
+			}
+			throw new Exception("El Sospechoso no existe en el Sistema");
+			return null;
+			/*
             Sospechoso sospechoso = null;
             foreach (Sospechoso unS in Sospechosos)
             {
@@ -44,10 +52,19 @@ namespace Dominio
                 throw new Exception("El Sospechoso no existe en el Sistema");
             }
             return sospechoso;
+			*/
         }
 
         public Investigador BuscarInvestigadorPorMail(string email)
         {
+			if (email == null) throw new Exception("El email no puede ser vacio");
+			foreach (Investigador unI in _investigadores)
+			{
+				if (unI.Email == email) return unI;
+			}
+			throw new Exception("El investigador no existe en el Sistema");
+			return null;
+			/*
             Investigador investigador = null;
             foreach (Investigador unI in _investigadores)
             {
@@ -61,6 +78,7 @@ namespace Dominio
                 throw new Exception("El investigador no existe en el Sistema");
             }
             return investigador;
+			*/
         }
 
         public void AltaInvestigador(string email, string contrasena, string nombre, Rol rol)
