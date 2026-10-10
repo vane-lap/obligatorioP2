@@ -27,7 +27,7 @@ namespace Consola
                         break;
                     case "3":
                         Console.Clear();
-                        AltaSospechoso();
+                        CrearSospechoso();
                         break;
                     case "4":
                         Console.Clear();
@@ -65,11 +65,56 @@ namespace Consola
             return texto;
         }
 
+        static DateTime LeerFecha(string mensaje)
+        {
+            bool exito = false;
+            DateTime fecha = new DateTime();
+            while (!exito)
+            {
+                Console.Write(mensaje + " [DD/MM/YYYY]:");
+                exito = DateTime.TryParse(Console.ReadLine(), out fecha);
+
+                if (!exito) MostrarError("ERROR: Debe ingresar una fecha en formato DD/MM/YYYY");
+            }
+            return fecha;
+        }
+
+        static bool LeerBooleano(string mensaje)
+        {
+            bool exito = false;
+            bool resultado = false;
+            while (!exito)
+            {
+                Console.Write(mensaje + " [S/N]:");
+                string booleanoString = Console.ReadLine();
+                if (booleanoString.ToUpper() == "S")
+                {
+                    resultado = true;
+                    exito = true;
+                }
+                else if (booleanoString.ToUpper() == "N")
+                {
+                    resultado = false;
+                    exito = true;
+                }
+
+                if (!exito) MostrarError("ERROR: Debe ingresar solo S o N");
+            }
+
+            return resultado;
+        }
+
         static void MostrarError(string mensaje)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(mensaje);
             Console.ResetColor();
+        }
+        static void MostrarExito(string mensaje)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(mensaje);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         static void PressToContinue()
@@ -103,11 +148,27 @@ namespace Consola
             PressToContinue();
         }
 
-        static void AltaSospechoso()
-        {
 
+
+        static void CrearSospechoso()
+        {
+            string nombre = PedirTexto("Ingrese su nombre: ");
+            string cedula = PedirTexto("Ingrese su cedula: ");
+            DateTime fechaNac = LeerFecha("Ingrese su fecha de nacimiento: ");
+            bool tieneAntecedente = LeerBooleano("Tiene antecedentes? ");
+
+            try
+            {
+                miSistema.AltaSospechoso(nombre, cedula, fechaNac, tieneAntecedente);
+                MostrarExito("Sospechoso creado correctamente");
+            }
+            catch(Exception ex)
+            {
+                MostrarError(ex.Message);
+            }
+            PressToContinue();
         }
-       
+
         static void MostrarSospechososConAntecedentes()
         {
             Console.WriteLine("---- Listado de Sospechosos con Antecedentes ----");
