@@ -138,17 +138,20 @@ namespace Consola
         static void BuscadorDeCasosPorInvestigador()
         {
             string email = PedirTexto("Ingrese un mail: ");
-
-            List<Caso> casos = miSistema.CasosPorInvestigador(email); 
-
-            foreach (Caso unC in casos)
+            try
             {
-                Console.WriteLine($"Id del caso: {unC.Id} - Nombre del caso: {unC.Nombre} - Nombre del investigador: {unC.Investigador.Nombre}");
+                List<Caso> casos = miSistema.CasosPorInvestigador(email);
+                foreach (Caso unC in casos)
+                {
+                    Console.WriteLine($"Id del caso: {unC.Id} - Nombre del caso: {unC.Nombre} - Nombre del investigador: {unC.Investigador.Nombre}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
             }
             PressToContinue();
         }
-
-
 
         static void CrearSospechoso()
         {
@@ -173,21 +176,26 @@ namespace Consola
         {
             Console.WriteLine("---- Listado de Sospechosos con Antecedentes ----");
             Console.WriteLine();
-            List<Sospechoso> todosLosSospechososConAntecedentes = miSistema.ObtenerSospechososConAntecedentes();
-            if (todosLosSospechososConAntecedentes.Count == 0)
+            try
             {
-                MostrarError("No hay sospechosos con antecedentes en el sistema");
-            }
-            else
-            {
-                foreach (Sospechoso unS in todosLosSospechososConAntecedentes)
+                List<Sospechoso> todosLosSospechososConAntecedentes = miSistema.ObtenerSospechososConAntecedentes();
+                if (todosLosSospechososConAntecedentes.Count == 0)
                 {
-                    Console.WriteLine(unS);
+                    MostrarError("No hay sospechosos con antecedentes en el sistema");
                 }
+                else
+                {
+                    foreach (Sospechoso unS in todosLosSospechososConAntecedentes)
+                    {
+                        Console.WriteLine(unS);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
             }
             PressToContinue();
         }
-
-
     }
 }

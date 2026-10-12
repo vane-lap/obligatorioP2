@@ -49,7 +49,5 @@ namespace Dominio
 
         public abstract int CalcularPeso();
 
-
-
     }
 }

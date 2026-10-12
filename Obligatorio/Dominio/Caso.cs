@@ -58,7 +58,6 @@ namespace Dominio
             if (_sospechoso == null) throw new Exception("El caso debe de tener un sospechoso");
             if (_investigador == null) throw new Exception("El caso debe de tener un investigador");
             if (!_investigador.Rol.Equals(Rol.DETECTIVE)) throw new Exception("El caso debe de tener un investigador de tipo detective asignado");
-            if (Evidencias == null) throw new Exception("El caso no puede tener una lista de evidencias nula");// revisar si es necesario
         }
 
         public override string ToString() 
@@ -79,7 +78,7 @@ namespace Dominio
 
         public void RecomendarImputacion()
         {
-
+            throw new NotImplementedException();
         }
 
     }

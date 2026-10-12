@@ -12,9 +12,6 @@ namespace Dominio
         private Credibilidad _credibilidad;
         #endregion
 
-
-        
-
         public Testimonio(DateTime fecha, string descripcion, string nombre, Credibilidad credibilidad) : base(fecha, descripcion)
         {
             _nombre = nombre;

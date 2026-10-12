@@ -31,36 +31,22 @@ namespace Dominio
 
         public Sospechoso BuscarSospechosoPorCedula(string cedula)
         {
-            Sospechoso sospechoso = null;
-            foreach (Sospechoso unS in Sospechosos)
+            if (cedula == null) throw new Exception("La cedula no puede ser vacia");
+            foreach (Sospechoso unS in _sospechosos)
             {
-                if (unS.Cedula == cedula) 
-                {
-                    sospechoso = unS;
-                }
+                if (unS.Cedula == cedula) return unS;
             }
-            if (sospechoso == null)
-            {
-                throw new Exception("El Sospechoso no existe en el Sistema");
-            }
-            return sospechoso;
+            return null;
         }
 
         public Investigador BuscarInvestigadorPorMail(string email)
         {
-            Investigador investigador = null;
+            if (email == null) throw new Exception("El email no puede ser vacio");
             foreach (Investigador unI in _investigadores)
             {
-                if (unI.Email == email)
-                {
-                    investigador = unI;
-                }
+                if (unI.Email == email) return unI;
             }
-            if(investigador == null)
-            {
-                throw new Exception("El investigador no existe en el Sistema");
-            }
-            return investigador;
+            return null;
         }
 
         public void AltaInvestigador(string email, string contrasena, string nombre, Rol rol)
@@ -74,7 +60,10 @@ namespace Dominio
         public void AltaCaso(string nombre, string descripcion, bool cerrado, string cedulaSospechoso, string emailInvestigador)
         {
             Sospechoso sospechoso = BuscarSospechosoPorCedula(cedulaSospechoso);
+            if (sospechoso == null) throw new Exception("El Sospechoso no existe en el Sistema");
+
             Investigador investigador = BuscarInvestigadorPorMail(emailInvestigador);
+            if (investigador == null)  throw new Exception("El investigador no existe en el Sistema");
 
             Caso c = new Caso(nombre, descripcion, cerrado, sospechoso, investigador);
             c.Validar();
@@ -178,7 +167,7 @@ namespace Dominio
             AltaEvidenciaFisica(new DateTime(2024, 1, 16), "Herramienta de corte olvidada en la escena", false, _casos[0]);
 
             AltaEvidenciaGrabacion(new DateTime(2024, 2, 10), "Registro de audio de llamada extorsiva", 3, false, _casos[1]);
-            AltaEvidenciaTestimonio(new DateTime(2024, 2, 11), "Testimonio del contador de la empresa", "María Gómez", Credibilidad.NORMAL, _casos[1]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 2, 11), "Testimonio del contador de la empresa", "María Gómez", Credibilidad.MEDIO, _casos[1]);
             AltaEvidenciaFisica(new DateTime(2024, 2, 12), "Dispositivo USB hallado en la oficina", true, _casos[1]);
             AltaEvidenciaTestimonio(new DateTime(2024, 2, 12), "Declaración del analista de sistemas", "Juan Rodríguez", Credibilidad.ALTO, _casos[1]);
 
@@ -190,7 +179,7 @@ namespace Dominio
             AltaEvidenciaFisica(new DateTime(2024, 4, 1), "Disco duro extraído del servidor afectado", false, _casos[3]);
             AltaEvidenciaTestimonio(new DateTime(2024, 4, 2), "Declaración del administrador de red", "Ana López", Credibilidad.ALTO, _casos[3]);
             AltaEvidenciaGrabacion(new DateTime(2024, 4, 2), "Video del centro de cómputos", 3, false, _casos[3]);
-            AltaEvidenciaTestimonio(new DateTime(2024, 4, 3), "Testimonio de empleado del área IT", "Diego Sánchez", Credibilidad.NORMAL, _casos[3]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 4, 3), "Testimonio de empleado del área IT", "Diego Sánchez", Credibilidad.MEDIO, _casos[3]);
 
             AltaEvidenciaFisica(new DateTime(2024, 5, 20), "Muestra de mercadería ilegal incautada", false, _casos[4]);
             AltaEvidenciaGrabacion(new DateTime(2024, 5, 20), "Grabación con dron del buque en puerto", 4, true, _casos[4]);
@@ -200,7 +189,7 @@ namespace Dominio
             AltaEvidenciaTestimonio(new DateTime(2024, 6, 10), "Testimonio de la víctima del fraude", "Lucía Fernández", Credibilidad.ALTO, _casos[5]);
             AltaEvidenciaFisica(new DateTime(2024, 6, 11), "Contrato falso impreso con firmas apócrifas", true, _casos[5]);
             AltaEvidenciaGrabacion(new DateTime(2024, 6, 11), "Grabación de videollamada con la inmobiliaria", 3, false, _casos[5]);
-            AltaEvidenciaTestimonio(new DateTime(2024, 6, 12), "Declaración del escribano público", "Gabriel Ruiz", Credibilidad.NORMAL, _casos[5]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 6, 12), "Declaración del escribano público", "Gabriel Ruiz", Credibilidad.MEDIO, _casos[5]);
 
             AltaEvidenciaFisica(new DateTime(2024, 7, 1), "Pasaportes falsificados incautados", true, _casos[6]);
             AltaEvidenciaTestimonio(new DateTime(2024, 7, 2), "Testimonio del oficial de fronteras", "Patricia Díaz", Credibilidad.ALTO, _casos[6]);
@@ -210,11 +199,11 @@ namespace Dominio
             AltaEvidenciaGrabacion(new DateTime(2024, 8, 15), "Audio de mensaje de voz con amenazas", 2, false, _casos[7]);
             AltaEvidenciaTestimonio(new DateTime(2024, 8, 16), "Declaración del dueño del local extorsionado", "Gonzalo Silva", Credibilidad.ALTO, _casos[7]);
             AltaEvidenciaFisica(new DateTime(2024, 8, 16), "Nota imprescripta manuscrita de la amenaza", true, _casos[7]);
-            AltaEvidenciaTestimonio(new DateTime(2024, 8, 17), "Testimonio de un cliente testigo del hecho", "Sofia Romero", Credibilidad.NORMAL, _casos[7]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 8, 17), "Testimonio de un cliente testigo del hecho", "Sofia Romero", Credibilidad.MEDIO, _casos[7]);
 
             AltaEvidenciaFisica(new DateTime(2024, 9, 8), "GPS rastreador hallado en la ruta", true, _casos[8]);
             AltaEvidenciaGrabacion(new DateTime(2024, 9, 8), "Video de cámara de seguridad de la peaje", 4, true, _casos[8]);
-            AltaEvidenciaTestimonio(new DateTime(2024, 9, 9), "Declaración del chofer del camión", "Esteban Castro", Credibilidad.NORMAL, _casos[8]);
+            AltaEvidenciaTestimonio(new DateTime(2024, 9, 9), "Declaración del chofer del camión", "Esteban Castro", Credibilidad.MEDIO, _casos[8]);
             AltaEvidenciaFisica(new DateTime(2024, 9, 9), "Llave duplicada encontrada cerca del camión", false, _casos[8]);
 
             AltaEvidenciaFisica(new DateTime(2024, 10, 1), "Pieza de maquinaria saboteada", true, _casos[9]);
