@@ -8,10 +8,10 @@ namespace Dominio
     public abstract class Evidencia : IValidable
     {
         #region ATRIBUTOS
-        private int _id;
-        private DateTime _fecha;
-        private string _descripcion;
-        private static int _ultId = 1;
+        protected int _id;
+        protected DateTime _fecha;
+        protected string _descripcion;
+        protected static int _ultId = 1;
         #endregion
 
         public int Id
