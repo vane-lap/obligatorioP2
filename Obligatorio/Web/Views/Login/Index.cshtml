@@ -1,0 +1,25 @@
+﻿@using Dominio;
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h4>Login</h4>
+
+<br />
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+<br />
+
+<form method="post" action="/Login">
+    <input type="text" placeholder="Ingrese email" name="email" value="@ViewBag.Email" />
+    <input type="text" placeholder="Ingrese contraseña" name="contrasena" value="@ViewBag.Contrasena" />
+    <input type="submit" value="Ingresar" class="btn btn-success" />
+</form>
