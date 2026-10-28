@@ -21,12 +21,23 @@ namespace Dominio
             get { return _casos; }
         }
 
-        public Sistema()
+        private Sistema()
         {
             PrecargaSospechosos();
             PrecargarInvestigadores();
             PrecargarCasos();
             PrecargarEvidencias();
+        }
+
+        private static Sistema s_instancia;
+
+        public static Sistema Instancia
+        {
+            get
+            {
+                if (s_instancia == null) s_instancia = new Sistema();
+                return s_instancia;
+            }
         }
 
         public Sospechoso BuscarSospechosoPorCedula(string cedula)
