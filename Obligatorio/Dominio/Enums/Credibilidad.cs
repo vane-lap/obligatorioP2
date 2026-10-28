@@ -7,7 +7,7 @@ namespace Dominio.Enums
     public enum Credibilidad
     {
         BAJO,
-        NORMAL,
+        MEDIO,
         ALTO
     }
 }
