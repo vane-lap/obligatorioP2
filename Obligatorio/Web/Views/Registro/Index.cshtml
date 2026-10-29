@@ -1,5 +1,26 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Dominio;
 @{
+    ViewData["Title"] = "Registro";
 }
+
+<h4>Registro</h4>
+
+<br />
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+<br />
+
+<form method="post" action="/Registro">
+    <input type="text" placeholder="Ingrese nombre" name="nombre" value="@ViewBag.Nombre" />
+    <input type="text" placeholder="Ingrese email" name="email" value="@ViewBag.Email" />
+    <input type="text" placeholder="Ingrese contraseña" name="contrasena" value="@ViewBag.Contrasena" />
+    <input type="submit" value="Registrar" class="btn btn-success" />
+</form>

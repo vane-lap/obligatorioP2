@@ -1,0 +1,38 @@
+﻿@using Dominio;
+@{
+    ViewData["Title"] = "Casos";
+}
+
+<h4>Listado de casos</h4>
+
+<br />
+
+@if (ViewBag.Listado != null)
+{
+    if (ViewBag.Listado.Count == 0)
+    {
+        <div class="alert alert-danger">No hay casos en el Sistema</div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Pais</th>
+                <th>Tipo</th>
+                <th>Acciones</th>
+            </tr>
+            @foreach (Agencia a in ViewBag.Listado)
+            {
+                <tr>
+                    <td>@a.Id</td>
+                    <td>@a.Nombre</td>
+                    <td>@a.Pais</td>
+                    <td>@a.MiTipo()</td>
+                    <td><a href="/agencias/detalle/@a.Id">Ver</a></td>
+                </tr>
+            }
+        </table>
+    }
+}
