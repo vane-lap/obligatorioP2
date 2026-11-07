@@ -1,0 +1,43 @@
+﻿@using Dominio;
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<h4>Detalles</h4>
+
+<br />
+
+@if (ViewBag.Caso != null)
+{
+    Caso unCaso = ViewBag.Caso;
+    <p>@unCaso.Id</p>
+    <p>@unCaso.Nombre</p>
+    <p>@unCaso.Descripcion</p>
+    <p>@unCaso.Investigador.Nombre</p>
+    <p>@unCaso.Sospechoso.Nombre</p>
+    @if (unCaso.Cerrado)
+    {
+        <p>Es cerrado</p>
+    }
+    else
+    {
+        <p>No esta cerrado</p>
+    }
+    
+    <table class="table table-striped">
+        <tr>
+            <th>Id</th>
+            <th>Fecha</th>
+            <th>Descripcion</th>
+        </tr>
+        @foreach (Evidencia e in ViewBag.Listado)
+        {
+            <tr>
+                <td>@e.Id</td>
+                <td>@e.Fecha</td>
+                <td>@e.Descripcion</td>
+            </tr>
+        }
+    </table>
+    
+}

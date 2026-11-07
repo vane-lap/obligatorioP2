@@ -16,6 +16,8 @@ namespace Dominio
             _infraganti = infraganti;
         }
 
+        public int Calidad { get { return _calidad; } }
+        public bool Infraganti { get { return _infraganti; } }
 
         public override void Validar()
         {

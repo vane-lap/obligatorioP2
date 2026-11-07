@@ -30,6 +30,16 @@ namespace Dominio
 			get { return _nombre; }
 		}
 
+        public string Descripcion
+        {
+            get { return _descripcion; }
+        }
+
+        public bool Cerrado
+        {
+            get { return _cerrado; }
+        }
+
         public List<Evidencia> Evidencias
         {
             get { return _evidencias; }
@@ -38,6 +48,11 @@ namespace Dominio
         public Investigador Investigador
         {
             get { return _investigador; }
+        }
+
+        public Sospechoso Sospechoso
+        {
+            get { return _sospechoso; }
         }
 
         public Caso(string nombre, string descripcion, bool cerrado, Sospechoso sospechoso, Investigador investigador)

@@ -251,5 +251,36 @@ namespace Dominio
             return listaRetorno;
         }
 
+        public Caso CasoPorId(int id)
+        {
+            foreach (Caso unC in _casos)
+            {
+                if (id == unC.Id)
+                {
+                    return unC;
+                }
+            }
+            return null;
+        }
+
+        public Investigador Login(string email, string pass)
+        {
+            foreach (Investigador i in _investigadores)
+            {
+                if (i.Email == email && i.Contrasena == pass) return i;
+            }
+
+            throw new Exception("Email o contraseña incorrecta");
+        }
+
+        public Investigador ObtenerUsuarioPorEmail(string email)
+        {
+            foreach (Investigador i in _investigadores)
+            {
+                if (i.Email == email) return i;
+            }
+            return null;
+        }
+
     }
 }

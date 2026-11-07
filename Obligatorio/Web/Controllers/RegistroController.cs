@@ -20,10 +20,13 @@ namespace Web.Controllers
             {
                 if (string.IsNullOrEmpty(nombre)) throw new Exception("El nombre es requerido");
                 if (string.IsNullOrEmpty(email)) throw new Exception("El email es requerido");
-                if (string.IsNullOrEmpty(contrasena)) throw new Exception("La contrasena es requerida");
+                if (string.IsNullOrEmpty(contrasena)) throw new Exception("La contraseña es requerida");
 
                 miSistema.AltaInvestigador(email, contrasena, nombre, 0);
                 ViewBag.Exito = $"Investigador {nombre} creado con exito";
+                HttpContext.Session.SetString("email", email);
+                HttpContext.Session.SetString("rol", Rol.DETECTIVE.ToString());
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {

@@ -24,6 +24,11 @@ namespace Dominio
             get { return _descripcion; }
         }
 
+        public DateTime Fecha
+        {
+            get { return _fecha; }
+        }
+
         public Evidencia(DateTime fecha, string descripcion)
         {
             _id = _ultId++;

@@ -14,6 +14,8 @@ namespace Dominio
             _tieneHuellas = tieneHuellas;
         }
 
+        public bool TieneHuellas { get { return _tieneHuellas; } }
+
         public override void Validar()
         {
             base.Validar();

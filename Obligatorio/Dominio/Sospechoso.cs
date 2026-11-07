@@ -21,7 +21,10 @@ namespace Dominio
             _fechaNac = fechaNac;
             _antecedentes = antecedentes;
         }
-
+        public string Nombre
+        {
+            get { return _nombre; }
+        }
         public string Cedula 
         { 
             get { return _cedula; } 

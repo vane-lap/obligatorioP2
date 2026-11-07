@@ -8,7 +8,7 @@ namespace Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddSession();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -29,7 +29,8 @@ namespace Web
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
-
+            
+            app.UseSession();
             app.Run();
         }
     }
