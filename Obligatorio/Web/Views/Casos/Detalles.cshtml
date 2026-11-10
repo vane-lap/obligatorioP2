@@ -23,21 +23,73 @@
     {
         <p>No esta cerrado</p>
     }
-    
+    <p>@unCaso.RecomendarImputacion()</p>
+
     <table class="table table-striped">
         <tr>
-            <th>Id</th>
-            <th>Fecha</th>
             <th>Descripcion</th>
+            <th>Fecha</th>
+            <th>Tiene huellas</th>
         </tr>
-        @foreach (Evidencia e in ViewBag.Listado)
+        @foreach (Fisica f in ViewBag.Fisicas)
         {
             <tr>
-                <td>@e.Id</td>
-                <td>@e.Fecha</td>
-                <td>@e.Descripcion</td>
+                <td>@f.Descripcion</td>
+                <td>@f.Fecha</td>
+                @if (f.TieneHuellas)
+                {
+                    <td>Si</td>
+                }
+                else
+                {
+                    <td>No</td>
+                }
             </tr>
         }
     </table>
-    
+
+
+    <table class="table table-striped">
+        <tr>
+            <th>Descripcion</th>
+            <th>Fecha</th>
+            <th>Infraganti</th>
+            <th>Calidad</th>
+        </tr>
+        @foreach (Grabacion g in ViewBag.Grabaciones)
+        {
+            <tr>
+                <td>@g.Descripcion</td>
+                <td>@g.Fecha</td>
+                @if (g.Infraganti)
+                {
+                    <td>Si</td>
+                }
+                else
+                {
+                    <td>No</td>
+                }
+                <td>@g.Calidad</td>
+            </tr>
+        }
+    </table>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Descripcion</th>
+            <th>Fecha</th>
+            <th>Nombre</th>
+            <th>Credibilidad</th>
+        </tr>
+        @foreach (Testimonio t in ViewBag.Testimonios)
+        {
+            <tr>
+                <td>@t.Descripcion</td>
+                <td>@t.Fecha</td>
+                <td>@t.Nombre</td>
+                <td>@t.Credibilidad</td>
+            </tr>
+        }
+    </table>
+  
 }

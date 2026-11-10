@@ -91,10 +91,89 @@ namespace Dominio
             return obj is Caso unC && _nombre.ToUpper() == unC._nombre.ToUpper();
         }
 
-        public void RecomendarImputacion()
+        public string RecomendarImputacion()
         {
-            throw new NotImplementedException();
+            int pesoTotal = 0;
+            foreach (Evidencia e in _evidencias)
+            {
+                pesoTotal += e.CalcularPeso();
+            }
+            if (_sospechoso.TieneAntecedente)
+            {
+                pesoTotal += 10;
+            }
+            if (pesoTotal < 30)
+            {
+                return $"DESESTIMADO: El caso {_nombre} carece de fundamentos. El peso de la prueba es {pesoTotal} y debería ser desestimado finalizando la investigación en contra de {_sospechoso.Nombre}";
+            } else if (pesoTotal < 70)
+            {
+                return $"CONTINUAR INVESTIGANDO: El caso {_nombre} parece ir por el camino correcto, pero necesita más investigación. El peso de la prueba es {pesoTotal} pero aún no hay información suficiente para imputar a {_sospechoso.Nombre}";
+            }else
+            {
+                if (pesoTotal > 100)
+                {
+                    pesoTotal = 100;
+                }
+                return $"IMPUTACIÓN INMINENTE: El caso {_nombre} está resuelto. El peso de la prueba es {pesoTotal} y debería imputarse a {_sospechoso.Nombre} inmediatamente";
+            }
         }
+
+        public int CalcularPesoDeEvidencias()
+        {
+            int pesoTotal = 0;
+            foreach (Evidencia e in _evidencias)
+            {
+                pesoTotal += e.CalcularPeso();
+            }
+            if (_sospechoso.TieneAntecedente)
+            {
+                pesoTotal += 10;
+            }
+            if (pesoTotal > 100)
+            {
+                pesoTotal = 100;
+            }
+            return pesoTotal;
+        }
+
+
+        public List<Fisica> ObtenerEvidenciasFisicas()
+        {
+            List<Fisica> listaRetorno = new List<Fisica>();
+            foreach (Evidencia unE in _evidencias)
+            {
+                if (unE is Fisica fisica)
+                {
+                    listaRetorno.Add(fisica);
+                }
+            }
+            return listaRetorno;
+        }
+        public List<Grabacion> ObtenerEvidenciasGrabaciones()
+        {
+            List<Grabacion> listaRetorno = new List<Grabacion>();
+            foreach (Evidencia unE in _evidencias)
+            {
+                if (unE is Grabacion grabacion)
+                {
+                    listaRetorno.Add(grabacion);
+                }
+            }
+            return listaRetorno;
+        }
+        public List<Testimonio> ObtenerEvidenciasTestimonios()
+        {
+            List<Testimonio> listaRetorno = new List<Testimonio>();
+            foreach (Evidencia unE in _evidencias)
+            {
+                if (unE is Testimonio testimonio)
+                {
+                    listaRetorno.Add(testimonio);
+                }
+            }
+            return listaRetorno;
+        }
+
 
     }
 }

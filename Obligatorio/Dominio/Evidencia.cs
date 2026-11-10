@@ -54,7 +54,17 @@ namespace Dominio
 
         public virtual int CalcularPeso()
         {
-            throw new NotImplementedException();
+            int pesoRetorno = 0;
+            DateTime limiteSeisMeses = DateTime.Now.AddMonths(-6);
+            if (_fecha > limiteSeisMeses)
+            {
+                pesoRetorno += 5;
+            }
+            else
+            {
+                pesoRetorno += 3;
+            }
+            return pesoRetorno;
         }
 
     }

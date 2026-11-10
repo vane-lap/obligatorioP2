@@ -18,7 +18,11 @@ namespace Web.Controllers
         public IActionResult Detalles(int id)
         {
             if (HttpContext.Session.GetString("rol") == null) return View("NoAuth");
-            ViewBag.Caso = miSistema.CasoPorId(id);
+            Caso caso = miSistema.CasoPorId(id);
+            ViewBag.Fisicas = caso.ObtenerEvidenciasFisicas();
+            ViewBag.Grabaciones = caso.ObtenerEvidenciasGrabaciones();
+            ViewBag.Testimonios = caso.ObtenerEvidenciasTestimonios();
+            ViewBag.Caso = caso;
             return View();
         }
     }

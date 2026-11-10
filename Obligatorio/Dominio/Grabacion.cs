@@ -40,7 +40,16 @@ namespace Dominio
         
         public override int CalcularPeso()
         {
-            throw new NotImplementedException();
+            int pesoRetorno = base.CalcularPeso();
+            if (_infraganti)
+            {
+                pesoRetorno += 60;
+                if (_calidad >= 3)
+                {
+                    pesoRetorno += 10;
+                }
+            }
+            return pesoRetorno;
         }
     }
 }

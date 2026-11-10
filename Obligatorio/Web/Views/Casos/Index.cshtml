@@ -23,6 +23,7 @@
                 <th>Investigador</th>
                 <th>Sospechoso</th>
                 <th>Cerrado</th>
+                <th>Peso de Evidencias</th>
                 <th>Acciones</th>
             </tr>
             @foreach (Caso c in ViewBag.Listado)
@@ -34,6 +35,7 @@
                     <td>@c.Investigador.Nombre</td>
                     <td>@c.Sospechoso.Nombre</td>
                     @if (c.Cerrado) {<td>Si</td>} else {<td>No</td>}
+                    <td>@c.CalcularPesoDeEvidencias()</td>
                     <td><a href="/casos/detalles/@c.Id">Ver</a></td>
                 </tr>
             }

@@ -35,7 +35,12 @@ namespace Dominio
 
         public override int CalcularPeso()
         {
-            throw new NotImplementedException();
+            int pesoRetorno = base.CalcularPeso();
+            if (_tieneHuellas)
+            {
+                pesoRetorno += 40;
+            }
+            return pesoRetorno;
         }
     }
 }
