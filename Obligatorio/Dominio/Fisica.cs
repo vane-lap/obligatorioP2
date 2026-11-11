@@ -15,6 +15,8 @@ namespace Dominio
             _tieneHuellas = tieneHuellas;
         }
 
+        public bool TieneHuellas { get { return _tieneHuellas; } }
+
         public override void Validar()
         {
             base.Validar();
@@ -34,7 +36,12 @@ namespace Dominio
 
         public override int CalcularPeso()
         {
-            throw new NotImplementedException();
+            int pesoRetorno = base.CalcularPeso();
+            if (_tieneHuellas)
+            {
+                pesoRetorno += 40;
+            }
+            return pesoRetorno;
         }
     }
 }

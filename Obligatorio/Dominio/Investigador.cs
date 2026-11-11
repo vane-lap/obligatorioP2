@@ -23,6 +23,7 @@ namespace Dominio
         public Rol Rol { get {return _rol;}}
         public string Email { get { return _email; } }
         public string Nombre { get { return _nombre; } }
+        public string Contrasena { get { return _contrasena; } }
 
         public void Validar()
         {

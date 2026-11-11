@@ -6,7 +6,7 @@ namespace Dominio.Enums
 {
     public enum Rol
     {
-        DETECTIVE,
-        FISCAL
+        DETECTIVE = 0,
+        FISCAL = 1
     }
 }

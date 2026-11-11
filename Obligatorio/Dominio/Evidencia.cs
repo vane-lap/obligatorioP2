@@ -24,6 +24,11 @@ namespace Dominio
             get { return _descripcion; }
         }
 
+        public DateTime Fecha
+        {
+            get { return _fecha; }
+        }
+
         public Evidencia(DateTime fecha, string descripcion)
         {
             _id = _ultId++;
@@ -49,7 +54,17 @@ namespace Dominio
 
         public virtual int CalcularPeso()
         {
-            throw new NotImplementedException();
+            int pesoRetorno = 0;
+            DateTime limiteSeisMeses = DateTime.Now.AddMonths(-6);
+            if (_fecha > limiteSeisMeses)
+            {
+                pesoRetorno += 5;
+            }
+            else
+            {
+                pesoRetorno += 3;
+            }
+            return pesoRetorno;
         }
 
     }

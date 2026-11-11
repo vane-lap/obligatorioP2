@@ -18,6 +18,9 @@ namespace Dominio
             _credibilidad = credibilidad;
         }
 
+        public string Nombre { get { return _nombre; } }
+        public Credibilidad Credibilidad { get { return _credibilidad; } }
+
         public override void Validar()
         {
             base.Validar();
@@ -32,7 +35,12 @@ namespace Dominio
         
         public override int CalcularPeso()
         {
-            throw new NotImplementedException();
+            int pesoRetorno = base.CalcularPeso();
+            if (_credibilidad.Equals(Credibilidad.ALTO) || _credibilidad.Equals(Credibilidad.MEDIO))
+            {
+                pesoRetorno += 10;
+            }
+            return pesoRetorno;
         }
     }
 

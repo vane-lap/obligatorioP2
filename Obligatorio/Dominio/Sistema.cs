@@ -21,12 +21,23 @@ namespace Dominio
             get { return _casos; }
         }
 
-        public Sistema()
+        private Sistema()
         {
             PrecargaSospechosos();
             PrecargarInvestigadores();
             PrecargarCasos();
             PrecargarEvidencias();
+        }
+
+        private static Sistema s_instancia;
+
+        public static Sistema Instancia
+        {
+            get
+            {
+                if (s_instancia == null) s_instancia = new Sistema();
+                return s_instancia;
+            }
         }
 
         public Sospechoso BuscarSospechosoPorCedula(string cedula)
@@ -238,6 +249,37 @@ namespace Dominio
                 }
             }
             return listaRetorno;
+        }
+
+        public Caso CasoPorId(int id)
+        {
+            foreach (Caso unC in _casos)
+            {
+                if (id == unC.Id)
+                {
+                    return unC;
+                }
+            }
+            return null;
+        }
+
+        public Investigador Login(string email, string pass)
+        {
+            foreach (Investigador i in _investigadores)
+            {
+                if (i.Email == email && i.Contrasena == pass) return i;
+            }
+
+            throw new Exception("Email o contraseña incorrecta");
+        }
+
+        public Investigador ObtenerUsuarioPorEmail(string email)
+        {
+            foreach (Investigador i in _investigadores)
+            {
+                if (i.Email == email) return i;
+            }
+            return null;
         }
 
     }

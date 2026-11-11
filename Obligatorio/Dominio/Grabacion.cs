@@ -10,12 +10,14 @@ namespace Dominio
         private int _calidad;
         private bool _infraganti;
         #endregion
-
         public Grabacion(DateTime fecha, string descripcion, int calidad, bool infraganti) : base(fecha, descripcion)
         {
             _calidad = calidad;
             _infraganti = infraganti;
         }
+
+        public int Calidad { get { return _calidad; } }
+        public bool Infraganti { get { return _infraganti; } }
 
         public override void Validar()
         {
@@ -38,7 +40,16 @@ namespace Dominio
         
         public override int CalcularPeso()
         {
-            throw new NotImplementedException();
+            int pesoRetorno = base.CalcularPeso();
+            if (_infraganti)
+            {
+                pesoRetorno += 60;
+                if (_calidad >= 3)
+                {
+                    pesoRetorno += 10;
+                }
+            }
+            return pesoRetorno;
         }
     }
 }

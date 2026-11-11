@@ -1,0 +1,95 @@
+﻿@using Dominio;
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<h4>Detalles</h4>
+
+<br />
+
+@if (ViewBag.Caso != null)
+{
+    Caso unCaso = ViewBag.Caso;
+    <p>@unCaso.Id</p>
+    <p>@unCaso.Nombre</p>
+    <p>@unCaso.Descripcion</p>
+    <p>@unCaso.Investigador.Nombre</p>
+    <p>@unCaso.Sospechoso.Nombre</p>
+    @if (unCaso.Cerrado)
+    {
+        <p>Es cerrado</p>
+    }
+    else
+    {
+        <p>No esta cerrado</p>
+    }
+    <p>@unCaso.RecomendarImputacion()</p>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Descripcion</th>
+            <th>Fecha</th>
+            <th>Tiene huellas</th>
+        </tr>
+        @foreach (Fisica f in ViewBag.Fisicas)
+        {
+            <tr>
+                <td>@f.Descripcion</td>
+                <td>@f.Fecha</td>
+                @if (f.TieneHuellas)
+                {
+                    <td>Si</td>
+                }
+                else
+                {
+                    <td>No</td>
+                }
+            </tr>
+        }
+    </table>
+
+
+    <table class="table table-striped">
+        <tr>
+            <th>Descripcion</th>
+            <th>Fecha</th>
+            <th>Infraganti</th>
+            <th>Calidad</th>
+        </tr>
+        @foreach (Grabacion g in ViewBag.Grabaciones)
+        {
+            <tr>
+                <td>@g.Descripcion</td>
+                <td>@g.Fecha</td>
+                @if (g.Infraganti)
+                {
+                    <td>Si</td>
+                }
+                else
+                {
+                    <td>No</td>
+                }
+                <td>@g.Calidad</td>
+            </tr>
+        }
+    </table>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Descripcion</th>
+            <th>Fecha</th>
+            <th>Nombre</th>
+            <th>Credibilidad</th>
+        </tr>
+        @foreach (Testimonio t in ViewBag.Testimonios)
+        {
+            <tr>
+                <td>@t.Descripcion</td>
+                <td>@t.Fecha</td>
+                <td>@t.Nombre</td>
+                <td>@t.Credibilidad</td>
+            </tr>
+        }
+    </table>
+  
+}
