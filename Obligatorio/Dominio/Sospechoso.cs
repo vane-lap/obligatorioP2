@@ -34,6 +34,10 @@ namespace Dominio
         {
             get { return _antecedentes; }
         }
+        public DateTime FechaNac
+        {
+            get { return _fechaNac; }
+        }
 
         public void Validar()
         {
