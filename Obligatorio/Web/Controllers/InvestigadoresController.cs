@@ -52,12 +52,14 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult Registro()
         {
+            if (HttpContext.Session.GetString("rol") != null) return View("NoAuth");
             return View();
         }
 
         [HttpPost]
         public IActionResult Registro(string nombre, string email, string contrasena)
         {
+            if (HttpContext.Session.GetString("rol") != null) return View("NoAuth");
             try
             {
                 if (string.IsNullOrEmpty(nombre)) throw new Exception("El nombre es requerido");

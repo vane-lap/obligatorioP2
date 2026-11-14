@@ -237,6 +237,23 @@ namespace Dominio
             return listaRetorno;
         }
 
+        public List<Sospechoso> ObtenerSospechososPorEdad(int edad)
+        {
+            List<Sospechoso> listaRetorno = new List<Sospechoso>();
+
+            DateTime fechaMax = DateTime.Now;
+            fechaMax = fechaMax.AddYears(-edad);
+
+            foreach (Sospechoso unS in _sospechosos)
+            {
+                if (unS.FechaNac < fechaMax)
+                {
+                    listaRetorno.Add(unS);
+                }
+            }
+            return listaRetorno;
+        }
+
         public List<Caso> CasosPorInvestigador(string email)
         {
             List<Caso> listaRetorno = new List<Caso>();
@@ -280,6 +297,19 @@ namespace Dominio
                 if (i.Email == email) return i;
             }
             return null;
+        }
+
+        public List<Investigador> ObtenerDetectives()
+        {
+            List<Investigador> listaRetorno = new List<Investigador>();
+            foreach (Investigador unI in _investigadores)
+            {
+                if (unI.Rol.Equals(Rol.DETECTIVE))
+                {
+                    listaRetorno.Add(unI);
+                }
+            }
+            return listaRetorno;
         }
 
     }

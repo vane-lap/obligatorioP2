@@ -35,7 +35,7 @@
         {
             <tr>
                 <td>@f.Descripcion</td>
-                <td>@f.Fecha</td>
+                <td>@f.Fecha.ToShortDateString()</td>
                 @if (f.TieneHuellas)
                 {
                     <td>Si</td>
@@ -60,7 +60,7 @@
         {
             <tr>
                 <td>@g.Descripcion</td>
-                <td>@g.Fecha</td>
+                <td>@g.Fecha.ToShortDateString()</td>
                 @if (g.Infraganti)
                 {
                     <td>Si</td>
@@ -85,7 +85,7 @@
         {
             <tr>
                 <td>@t.Descripcion</td>
-                <td>@t.Fecha</td>
+                <td>@t.Fecha.ToShortDateString()</td>
                 <td>@t.Nombre</td>
                 <td>@t.Credibilidad</td>
             </tr>
