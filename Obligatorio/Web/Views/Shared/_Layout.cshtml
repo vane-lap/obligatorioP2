@@ -1,78 +1,138 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@{
+    string? rolSesion = Context.Session.GetString("rol");
+    string? emailSesion = Context.Session.GetString("email");
+}
+@functions {
+    // Marca como activo el enlace del menú correspondiente a la página actual (solo visual).
+    private string Activo(string controller, params string[] actions)
+    {
+        string? c = ViewContext.RouteData.Values["controller"]?.ToString();
+        string? a = ViewContext.RouteData.Values["action"]?.ToString();
+        if (!string.Equals(c, controller, StringComparison.OrdinalIgnoreCase)) return "";
+        foreach (string accion in actions)
+        {
+            if (string.Equals(a, accion, StringComparison.OrdinalIgnoreCase)) return "active";
+        }
+        return "";
+    }
+}
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Web</title>
+    <title>@ViewData["Title"] · Fiscalía</title>
     <script type="importmap"></script>
+    <link rel="icon" type="image/svg+xml" href="~/img/emblema.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Web.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Web</a>
+        <nav class="navbar navbar-expand-lg fx-navbar" data-bs-theme="dark">
+            <div class="container">
+                <a class="fx-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/img/emblema.svg" alt="Emblema de la Fiscalía" />
+                    <span>
+                        <span class="fx-brand-title">Fiscalía</span>
+                        <span class="fx-brand-sub">Gestión de Casos e Imputaciones</span>
+                    </span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                        aria-expanded="false" aria-label="Abrir menú de navegación">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav me-auto gap-lg-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link @Activo("Home", "Index")" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door"></i> Inicio
+                            </a>
                         </li>
-                        
-                        @if (Context.Session.GetString("rol") != null)
+
+                        @if (rolSesion != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Casos" asp-action="Index">Lista de casos</a>
+                                <a class="nav-link @Activo("Casos", "Index", "Detalles")" asp-area="" asp-controller="Casos" asp-action="Index">
+                                    <i class="bi bi-folder2-open"></i> Casos
+                                </a>
                             </li>
 
-                            @if (Context.Session.GetString("rol") == "DETECTIVE")
+                            @if (rolSesion == "DETECTIVE")
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sospechosos" asp-action="Index">Lista de Sospechosos</a>
+                                    <a class="nav-link @Activo("Sospechosos", "Index")" asp-area="" asp-controller="Sospechosos" asp-action="Index">
+                                        <i class="bi bi-person-vcard"></i> Sospechosos
+                                    </a>
                                 </li>
                             }
-                            else if (Context.Session.GetString("rol") == "FISCAL")
+                            else if (rolSesion == "FISCAL")
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Casos" asp-action="AltaCaso">Alta de Caso</a>
+                                    <a class="nav-link @Activo("Casos", "AltaCaso")" asp-area="" asp-controller="Casos" asp-action="AltaCaso">
+                                        <i class="bi bi-plus-circle"></i> Alta de caso
+                                    </a>
                                 </li>
                             }
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Investigadores" asp-action="Perfil">Perfil</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Investigadores" asp-action="Logout">Salir</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Investigadores" asp-action="Index">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Investigadores" asp-action="Registro">Registro</a>
+                                <a class="nav-link @Activo("Investigadores", "Perfil")" asp-area="" asp-controller="Investigadores" asp-action="Perfil">
+                                    <i class="bi bi-person-badge"></i> Mi perfil
+                                </a>
                             </li>
                         }
                     </ul>
+
+                    <div class="fx-nav-user d-flex flex-wrap align-items-center gap-2">
+                        @if (rolSesion != null)
+                        {
+                            <div class="fx-user">
+                                <span class="fx-user-icon"><i class="bi bi-person-fill"></i></span>
+                                <span class="fx-user-meta">
+                                    <span class="fx-user-email" title="@emailSesion">@emailSesion</span>
+                                    <span class="fx-role @(rolSesion == "FISCAL" ? "fx-role-fiscal" : "fx-role-detective")">@rolSesion</span>
+                                </span>
+                            </div>
+                            <a class="btn btn-sm btn-ghost-light" asp-area="" asp-controller="Investigadores" asp-action="Logout">
+                                <i class="bi bi-box-arrow-right"></i> Salir
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-ghost-light" asp-area="" asp-controller="Investigadores" asp-action="Index">
+                                <i class="bi bi-box-arrow-in-right"></i> Ingresar
+                            </a>
+                            <a class="btn btn-sm btn-gold" asp-area="" asp-controller="Investigadores" asp-action="Registro">
+                                <i class="bi bi-person-plus"></i> Registro
+                            </a>
+                        }
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main role="main" class="fx-main">
+        <div class="container py-4 py-lg-5">
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="fx-footer">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+            <div class="fx-footer-brand">
+                <img src="~/img/emblema.svg" alt="" />
+                <span>&copy; 2026 · Fiscalía — Sistema de Gestión de Casos e Imputaciones</span>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span><i class="bi bi-shield-lock"></i> Uso exclusivo de personal autorizado</span>
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,40 +1,114 @@
 ﻿@using Dominio;
 @{
-    ViewData["Title"] = "Alta caso";
+    ViewData["Title"] = "Alta de caso";
 }
 
-<h4>Alta caso</h4>
+<div class="fx-page-header">
+    <div>
+        <span class="fx-eyebrow"><i class="bi bi-file-earmark-plus"></i> Nuevo expediente</span>
+        <h1 class="fx-page-title">Alta de caso</h1>
+        <p class="fx-page-subtitle">Registre un nuevo caso y asigne el sospechoso y el detective responsable de la investigación.</p>
+    </div>
+</div>
 
 @if (ViewBag.Error != null)
 {
-    <div class="alert alert-danger">@ViewBag.Error</div>
+    <div class="alert alert-danger"><i class="bi bi-exclamation-triangle-fill"></i> <span>@ViewBag.Error</span></div>
 }
 @if (ViewBag.Exito != null)
 {
-    <div class="alert alert-success">@ViewBag.Exito</div>
+    <div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> <span>@ViewBag.Exito</span></div>
 }
 
-<form method="post" action="/casos/altacaso">
-    <label>Nombre:</label>
-    <input type="text" placeholder="Ingrese el nombre" name="nombre"/>
-    <label>Descripcion:</label>
-    <input type="text" placeholder="Ingrese la descripcion" name="descripcion"/>
-    <label>Esta cerrado?</label>
-    <input type="checkbox" name="cerrado" value="true"/>
+<div class="row g-4">
+    <div class="col-lg-8">
+        <form method="post" action="/casos/altacaso" class="fx-card">
+            <div class="fx-card-header">
+                <span class="fx-icon-tile"><i class="bi bi-folder-plus"></i></span>
+                <div>
+                    <h2 class="fx-card-title">Datos del caso</h2>
+                    <p class="fx-card-subtitle">Todos los campos son obligatorios</p>
+                </div>
+            </div>
+            <div class="fx-card-body">
+                <div class="fx-form-section">Información general</div>
 
-    <label>Sospechoso:</label>
-    <select name="cedulaSospechoso">
-        @foreach (Sospechoso s in ViewBag.Sospechosos)
-        {
-            <option value="@s.Cedula">@s.Nombre</option>
-        }
-    </select>
-    <label>Investigador:</label>
-    <select name="emailInvestigador">
-        @foreach (Investigador i in ViewBag.Detectives)
-        {
-            <option value="@i.Email">@i.Nombre</option>
-        }
-    </select>
-    <input type="submit" value="Crear caso" class="btn btn-success"/>
-</form>
+                <div class="mb-3">
+                    <label class="form-label fx-form-label" for="nombre">Nombre</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                        <input id="nombre" type="text" class="form-control" placeholder="Ingrese el nombre" name="nombre" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fx-form-label" for="descripcion">Descripción</label>
+                    <textarea id="descripcion" class="form-control" rows="3" placeholder="Ingrese la descripcion" name="descripcion"></textarea>
+                </div>
+
+                <div class="fx-form-section">Asignación</div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fx-form-label" for="cedulaSospechoso">Sospechoso</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person-vcard"></i></span>
+                            <select id="cedulaSospechoso" class="form-select" name="cedulaSospechoso">
+                                @foreach (Sospechoso s in ViewBag.Sospechosos)
+                                {
+                                    <option value="@s.Cedula">@s.Nombre — CI @s.Cedula</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fx-form-label" for="emailInvestigador">Investigador</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <select id="emailInvestigador" class="form-select" name="emailInvestigador">
+                                @foreach (Investigador i in ViewBag.Detectives)
+                                {
+                                    <option value="@i.Email">@i.Nombre</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fx-form-section">Estado</div>
+
+                <div class="fx-switch-box">
+                    <div>
+                        <div class="fw-semibold text-body">¿Está cerrado?</div>
+                        <div class="small text-muted">Active esta opción si el caso se registra como cerrado.</div>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="cerrado" name="cerrado" value="true" />
+                        <label class="visually-hidden" for="cerrado">Está cerrado</label>
+                    </div>
+                </div>
+            </div>
+            <div class="fx-card-footer d-flex flex-wrap justify-content-end gap-2">
+                <a class="btn btn-light" asp-controller="Casos" asp-action="Index">Cancelar</a>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check2-circle"></i> Crear caso</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="fx-card">
+            <div class="fx-card-header">
+                <span class="fx-icon-tile gold"><i class="bi bi-lightbulb"></i></span>
+                <h2 class="fx-card-title">Antes de crear el caso</h2>
+            </div>
+            <div class="fx-card-body">
+                <ul class="fx-checklist">
+                    <li><i class="bi bi-check2-circle"></i> <span>El nombre del caso debe ser <strong>único</strong> en el sistema.</span></li>
+                    <li><i class="bi bi-check2-circle"></i> <span>El investigador asignado debe tener rol <strong>Detective</strong>.</span></li>
+                    <li><i class="bi bi-check2-circle"></i> <span>El sospechoso debe estar previamente registrado.</span></li>
+                    <li><i class="bi bi-check2-circle"></i> <span>La <strong>recomendación de imputación</strong> se calcula automáticamente a partir de las evidencias y los antecedentes del sospechoso.</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

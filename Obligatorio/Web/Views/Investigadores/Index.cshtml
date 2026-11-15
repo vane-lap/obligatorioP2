@@ -1,23 +1,63 @@
 ﻿@using Dominio;
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Ingresar";
 }
 
-<h4>Login</h4>
+<div class="fx-auth">
+    <aside class="fx-auth-aside d-none d-md-flex">
+        <div>
+            <img src="~/img/emblema.svg" width="60" alt="Emblema de la Fiscalía" />
+            <h2>Fiscalía</h2>
+            <p>Sistema de Gestión de Casos e Imputaciones</p>
+        </div>
+        <ul class="fx-auth-features">
+            <li><i class="bi bi-folder2-open"></i> Expedientes y evidencias centralizados</li>
+            <li><i class="bi bi-fingerprint"></i> Evidencias físicas, grabaciones y testimonios</li>
+            <li><i class="bi bi-clipboard-data"></i> Recomendación de imputación automática</li>
+        </ul>
+        <span class="fx-auth-note"><i class="bi bi-shield-lock"></i> Acceso exclusivo para personal autorizado.</span>
+        <img class="fx-auth-watermark" src="~/img/emblema.svg" alt="" />
+    </aside>
 
-@if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger">@ViewBag.Error</div>
-}
-@if (ViewBag.Exito != null)
-{
-    <div class="alert alert-success">@ViewBag.Exito</div>
-}
+    <div class="fx-auth-main">
+        <div class="fx-auth-head">
+            <img class="d-md-none mb-3" src="~/img/emblema.svg" width="44" alt="Emblema de la Fiscalía" />
+            <span class="fx-eyebrow d-flex">Acceso al sistema</span>
+            <h1 class="fx-page-title">Iniciar sesión</h1>
+            <p class="fx-page-subtitle">Ingrese con su email y contraseña de investigador.</p>
+        </div>
 
-<form method="post" action="/Investigadores">
-    <label>Email:</label>
-    <input type="email" placeholder="Ingrese email" name="email" value="@ViewBag.Email"/>
-    <label>Contraseña:</label>
-    <input type="text" placeholder="Ingrese contraseña" name="pass" value="@ViewBag.Pass"/>
-    <input type="submit" value="Ingresar" class="btn btn-success"/>
-</form>
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger"><i class="bi bi-exclamation-triangle-fill"></i> <span>@ViewBag.Error</span></div>
+        }
+        @if (ViewBag.Exito != null)
+        {
+            <div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> <span>@ViewBag.Exito</span></div>
+        }
+
+        <form method="post" action="/Investigadores">
+            <div class="mb-3">
+                <label class="form-label fx-form-label" for="email">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input id="email" type="email" class="form-control" placeholder="Ingrese email" name="email" value="@ViewBag.Email" autocomplete="username" />
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="form-label fx-form-label" for="pass">Contraseña</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-key"></i></span>
+                    <input id="pass" type="password" class="form-control" placeholder="Ingrese contraseña" name="pass" value="@ViewBag.Pass" autocomplete="current-password" />
+                    <button class="btn btn-light" type="button" data-fx-toggle-password="pass" aria-label="Mostrar contraseña"><i class="bi bi-eye"></i></button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg w-100"><i class="bi bi-box-arrow-in-right"></i> Ingresar</button>
+        </form>
+
+        <p class="fx-auth-switch">
+            ¿Aún no tiene cuenta?
+            <a asp-controller="Investigadores" asp-action="Registro">Regístrese</a>
+        </p>
+    </div>
+</div>
