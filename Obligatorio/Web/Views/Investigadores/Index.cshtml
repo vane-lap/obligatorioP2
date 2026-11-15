@@ -5,8 +5,6 @@
 
 <h4>Login</h4>
 
-<br />
-
 @if (ViewBag.Error != null)
 {
     <div class="alert alert-danger">@ViewBag.Error</div>
@@ -16,10 +14,10 @@
     <div class="alert alert-success">@ViewBag.Exito</div>
 }
 
-<br />
-
 <form method="post" action="/Investigadores">
-    <input type="text" placeholder="Ingrese email" name="email" value="@ViewBag.Email" />
-    <input type="text" placeholder="Ingrese contraseña" name="pass" value="@ViewBag.Pass" />
-    <input type="submit" value="Ingresar" class="btn btn-success" />
+    <label>Email:</label>
+    <input type="email" placeholder="Ingrese email" name="email" value="@ViewBag.Email"/>
+    <label>Contraseña:</label>
+    <input type="text" placeholder="Ingrese contraseña" name="pass" value="@ViewBag.Pass"/>
+    <input type="submit" value="Ingresar" class="btn btn-success"/>
 </form>

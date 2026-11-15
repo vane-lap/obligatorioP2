@@ -5,12 +5,13 @@
 
 <h4>Mi Perfil</h4>
 
-<br />
-
 @if (ViewBag.Investigador != null)
 {
     Investigador unInvestigador = ViewBag.Investigador;
+    <label>Tu email es:</label>
     <p>@unInvestigador.Email</p>
+    <label>Tu nombre es:</label>
     <p>@unInvestigador.Nombre</p>
+    <label>Tu rol es:</label>
     <p>@unInvestigador.Rol.ToString()</p>
 }

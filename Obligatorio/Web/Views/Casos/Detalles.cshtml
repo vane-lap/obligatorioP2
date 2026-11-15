@@ -5,16 +5,22 @@
 
 <h4>Detalles</h4>
 
-<br />
+<br/>
 
 @if (ViewBag.Caso != null)
 {
     Caso unCaso = ViewBag.Caso;
+    <label>Id:</label>
     <p>@unCaso.Id</p>
+    <label>Nombre:</label>
     <p>@unCaso.Nombre</p>
+    <label>Descripcion:</label>
     <p>@unCaso.Descripcion</p>
+    <label>Nombre del Investigador:</label>
     <p>@unCaso.Investigador.Nombre</p>
+    <label>Nombre del Sospechoso:</label>
     <p>@unCaso.Sospechoso.Nombre</p>
+    <label>El caso:</label>
     @if (unCaso.Cerrado)
     {
         <p>Es cerrado</p>
@@ -23,73 +29,96 @@
     {
         <p>No esta cerrado</p>
     }
+
     <p>@unCaso.RecomendarImputacion()</p>
 
-    <table class="table table-striped">
-        <tr>
-            <th>Descripcion</th>
-            <th>Fecha</th>
-            <th>Tiene huellas</th>
-        </tr>
-        @foreach (Fisica f in ViewBag.Fisicas)
-        {
+    <h3>Lista de evidencias Fisicas</h3>
+    if (ViewBag.Fisicas.Count == 0)
+    {
+        <div class="alert alert-danger">No hay evidencias fisicas en el caso</div>
+    }
+    else
+    {
+        <table class="table table-striped">
             <tr>
-                <td>@f.Descripcion</td>
-                <td>@f.Fecha.ToShortDateString()</td>
-                @if (f.TieneHuellas)
-                {
-                    <td>Si</td>
-                }
-                else
-                {
-                    <td>No</td>
-                }
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Tiene huellas</th>
             </tr>
-        }
-    </table>
+            @foreach (Fisica f in ViewBag.Fisicas)
+            {
+                <tr>
+                    <td>@f.Descripcion</td>
+                    <td>@f.Fecha.ToShortDateString()</td>
+                    @if (f.TieneHuellas)
+                    {
+                        <td>Si</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
+                </tr>
+            }
+        </table>
+    }
 
-
-    <table class="table table-striped">
-        <tr>
-            <th>Descripcion</th>
-            <th>Fecha</th>
-            <th>Infraganti</th>
-            <th>Calidad</th>
-        </tr>
-        @foreach (Grabacion g in ViewBag.Grabaciones)
-        {
+    <h3>Lista de evidencias Grabaciones</h3>
+    if (ViewBag.Grabaciones.Count == 0)
+    {
+        <div class="alert alert-danger">No hay grabaciones en el caso</div>
+    }
+    else
+    {
+        <table class="table table-striped">
             <tr>
-                <td>@g.Descripcion</td>
-                <td>@g.Fecha.ToShortDateString()</td>
-                @if (g.Infraganti)
-                {
-                    <td>Si</td>
-                }
-                else
-                {
-                    <td>No</td>
-                }
-                <td>@g.Calidad</td>
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Infraganti</th>
+                <th>Calidad</th>
             </tr>
-        }
-    </table>
+            @foreach (Grabacion g in ViewBag.Grabaciones)
+            {
+                <tr>
+                    <td>@g.Descripcion</td>
+                    <td>@g.Fecha.ToShortDateString()</td>
+                    @if (g.Infraganti)
+                    {
+                        <td>Si</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
+                    <td>@g.Calidad</td>
+                </tr>
+            }
+        </table>
+    }
 
-    <table class="table table-striped">
-        <tr>
-            <th>Descripcion</th>
-            <th>Fecha</th>
-            <th>Nombre</th>
-            <th>Credibilidad</th>
-        </tr>
-        @foreach (Testimonio t in ViewBag.Testimonios)
-        {
+    <h3>Lista de evidencias Testimonios</h3>
+    if (ViewBag.Testimonios.Count == 0)
+    {
+        <div class="alert alert-danger">No hay testimonios en el caso</div>
+    }
+    else
+    {
+        <table class="table table-striped">
             <tr>
-                <td>@t.Descripcion</td>
-                <td>@t.Fecha.ToShortDateString()</td>
-                <td>@t.Nombre</td>
-                <td>@t.Credibilidad</td>
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Credibilidad</th>
             </tr>
-        }
-    </table>
-  
+            @foreach (Testimonio t in ViewBag.Testimonios)
+            {
+                <tr>
+                    <td>@t.Descripcion</td>
+                    <td>@t.Fecha.ToShortDateString()</td>
+                    <td>@t.Nombre</td>
+                    <td>@t.Credibilidad</td>
+                </tr>
+            }
+        </table>
+    }
 }

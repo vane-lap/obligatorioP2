@@ -7,6 +7,7 @@ namespace Web.Controllers
     public class InvestigadoresController : Controller
     {
         Sistema miSistema = Sistema.Instancia;
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -79,9 +80,8 @@ namespace Web.Controllers
                 ViewBag.Email = email;
                 ViewBag.Contrasena = contrasena;
             }
+
             return View();
         }
-
-
     }
 }

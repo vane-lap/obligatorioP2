@@ -5,8 +5,6 @@
 
 <h4>Listado de casos</h4>
 
-<br />
-
 @if (ViewBag.Listado != null)
 {
     if (ViewBag.Listado.Count == 0)
@@ -34,7 +32,14 @@
                     <td>@c.Descripcion</td>
                     <td>@c.Investigador.Nombre</td>
                     <td>@c.Sospechoso.Nombre</td>
-                    @if (c.Cerrado) {<td>Si</td>} else {<td>No</td>}
+                    @if (c.Cerrado)
+                    {
+                        <td>Si</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
                     <td>@c.CalcularPesoDeEvidencias()</td>
                     <td><a href="/casos/detalles/@c.Id">Ver</a></td>
                 </tr>
