@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 72" role="img" aria-label="Emblema de la Fiscalía">
+  <defs>
+    <linearGradient id="fxShield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#23457f"/>
+      <stop offset="1" stop-color="#0b1a33"/>
+    </linearGradient>
+  </defs>
+  <path d="M32 3 L59 12.5 V33 C59 51 46.5 63.5 32 69 C17.5 63.5 5 51 5 33 V12.5 Z" fill="url(#fxShield)" stroke="#c8a24a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M32 8.5 L54 16.3 V33 C54 47.6 44 58 32 63 C20 58 10 47.6 10 33 V16.3 Z" fill="none" stroke="#c8a24a" stroke-opacity=".35" stroke-width="1"/>
+  <g fill="none" stroke="#e4c77a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 20 V52"/>
+    <path d="M18 26 H46"/>
+    <path d="M18 26 L13 38 M18 26 L23 38"/>
+    <path d="M46 26 L41 38 M46 26 L51 38"/>
+  </g>
+  <g fill="#e4c77a">
+    <circle cx="32" cy="18.5" r="2.6"/>
+    <path d="M12.5 38 H23.5 C23 42.5 20.5 45 18 45 C15.5 45 13 42.5 12.5 38 Z"/>
+    <path d="M40.5 38 H51.5 C51 42.5 48.5 45 46 45 C43.5 45 41 42.5 40.5 38 Z"/>
+    <path d="M27 52 H37 L39 55.5 H25 Z"/>
+  </g>
+</svg>

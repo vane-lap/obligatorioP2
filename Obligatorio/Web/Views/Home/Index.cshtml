@@ -1,8 +1,162 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
+    string? rol = Context.Session.GetString("rol");
+    string? email = Context.Session.GetString("email");
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<section class="fx-hero mb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <span class="fx-hero-eyebrow"><i class="bi bi-shield-check"></i> Sistema de Gestión de Casos e Imputaciones</span>
+
+            @if (rol != null)
+            {
+                <h1 class="fx-hero-title">Bienvenido/a,<br /><span class="text-gold">@email</span></h1>
+                <p class="fx-hero-text">
+                    @if (rol == "FISCAL")
+                    {
+                        <text>Desde aquí puede consultar todos los casos del sistema, revisar sus evidencias y dar de alta nuevos expedientes.</text>
+                    }
+                    else
+                    {
+                        <text>Desde aquí puede consultar los casos que tiene asignados, revisar sus evidencias y el registro de sospechosos.</text>
+                    }
+                </p>
+                <div class="d-flex flex-wrap align-items-center gap-3">
+                    <span class="fx-role fx-role-lg @(rol == "FISCAL" ? "fx-role-fiscal" : "fx-role-detective")">
+                        <i class="bi @(rol == "FISCAL" ? "bi-bank" : "bi-search")"></i> @rol
+                    </span>
+                    <a class="btn btn-gold" asp-controller="Casos" asp-action="Index">
+                        <i class="bi bi-folder2-open"></i> Ver casos
+                    </a>
+                </div>
+            }
+            else
+            {
+                <h1 class="fx-hero-title">Investigación y evidencia,<br />en un solo expediente.</h1>
+                <p class="fx-hero-text">
+                    Centralice los casos de la fiscalía, consulte sus evidencias —físicas, grabaciones y testimonios—
+                    y obtenga una recomendación de imputación basada en el peso de la prueba.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-gold btn-lg" asp-controller="Investigadores" asp-action="Index">
+                        <i class="bi bi-box-arrow-in-right"></i> Ingresar al sistema
+                    </a>
+                    <a class="btn btn-ghost-light btn-lg" asp-controller="Investigadores" asp-action="Registro">
+                        <i class="bi bi-person-plus"></i> Registrarse
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="col-lg-5 text-center d-none d-md-block">
+            <img src="~/img/expediente.svg" class="fx-hero-img" alt="Ilustración de un expediente bajo investigación" />
+        </div>
+    </div>
+</section>
+
+@if (rol != null)
+{
+    <h2 class="fx-section-title"><i class="bi bi-lightning-charge text-warning"></i> Accesos rápidos</h2>
+    <div class="row g-3 g-lg-4 mb-2">
+        <div class="col-md-4">
+            <a class="fx-card fx-action-card" asp-controller="Casos" asp-action="Index">
+                <span class="fx-icon-tile fx-icon-tile-lg"><i class="bi bi-folder2-open"></i></span>
+                <h3>Casos</h3>
+                <p>
+                    @(rol == "DETECTIVE"
+                        ? "Consulte los casos que tiene asignados, sus evidencias y el peso de la prueba."
+                        : "Consulte todos los casos del sistema, sus evidencias y la recomendación de imputación.")
+                </p>
+                <span class="fx-action-link">Ir a casos <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+
+        @if (rol == "DETECTIVE")
+        {
+            <div class="col-md-4">
+                <a class="fx-card fx-action-card" asp-controller="Sospechosos" asp-action="Index">
+                    <span class="fx-icon-tile fx-icon-tile-lg danger"><i class="bi bi-person-vcard"></i></span>
+                    <h3>Sospechosos</h3>
+                    <p>Revise el registro de sospechosos, sus antecedentes y fíltrelos por edad.</p>
+                    <span class="fx-action-link">Ir a sospechosos <i class="bi bi-arrow-right"></i></span>
+                </a>
+            </div>
+        }
+        else if (rol == "FISCAL")
+        {
+            <div class="col-md-4">
+                <a class="fx-card fx-action-card" asp-controller="Casos" asp-action="AltaCaso">
+                    <span class="fx-icon-tile fx-icon-tile-lg gold"><i class="bi bi-file-earmark-plus"></i></span>
+                    <h3>Alta de caso</h3>
+                    <p>Registre un nuevo expediente y asígnelo a un sospechoso y a un detective.</p>
+                    <span class="fx-action-link">Crear caso <i class="bi bi-arrow-right"></i></span>
+                </a>
+            </div>
+        }
+
+        <div class="col-md-4">
+            <a class="fx-card fx-action-card" asp-controller="Investigadores" asp-action="Perfil">
+                <span class="fx-icon-tile fx-icon-tile-lg success"><i class="bi bi-person-badge"></i></span>
+                <h3>Mi perfil</h3>
+                <p>Consulte sus datos de usuario y los permisos asociados a su rol.</p>
+                <span class="fx-action-link">Ver perfil <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row g-3 g-lg-4 mb-2">
+        <div class="col-md-4">
+            <div class="fx-card fx-action-card">
+                <span class="fx-icon-tile fx-icon-tile-lg"><i class="bi bi-folder2-open"></i></span>
+                <h3>Expedientes centralizados</h3>
+                <p>Cada caso reúne su descripción, el sospechoso, el detective asignado y su estado.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="fx-card fx-action-card">
+                <span class="fx-icon-tile fx-icon-tile-lg gold"><i class="bi bi-fingerprint"></i></span>
+                <h3>Evidencia ponderada</h3>
+                <p>Evidencias físicas, grabaciones y testimonios suman peso a la prueba de cada caso.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="fx-card fx-action-card">
+                <span class="fx-icon-tile fx-icon-tile-lg danger"><i class="bi bi-clipboard-data"></i></span>
+                <h3>Recomendación de imputación</h3>
+                <p>El sistema sugiere desestimar, continuar investigando o imputar según el peso de la prueba.</p>
+            </div>
+        </div>
+    </div>
+}
+
+<h2 class="fx-section-title"><i class="bi bi-bar-chart-steps text-secondary"></i> Criterio de recomendación</h2>
+<div class="row g-3 g-lg-4">
+    <div class="col-md-4">
+        <div class="fx-card fx-zone bajo">
+            <span class="fx-zone-range">Peso &lt; 30</span>
+            <h3>Desestimado</h3>
+            <p>El caso carece de fundamentos suficientes y se sugiere finalizar la investigación.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="fx-card fx-zone medio">
+            <span class="fx-zone-range">Peso 30 – 69</span>
+            <h3>Continuar investigando</h3>
+            <p>El caso va por buen camino, pero aún no hay información suficiente para imputar.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="fx-card fx-zone alto">
+            <span class="fx-zone-range">Peso ≥ 70</span>
+            <h3>Imputación inminente</h3>
+            <p>Hay prueba suficiente y se recomienda imputar al sospechoso de inmediato.</p>
+        </div>
+    </div>
 </div>
+<p class="text-muted small mt-3 mb-0">
+    <i class="bi bi-info-circle"></i>
+    El peso (máximo 100) se calcula a partir de las evidencias del caso —antigüedad, huellas, grabaciones infraganti y
+    credibilidad de los testimonios— y de los antecedentes del sospechoso.
+</p>

@@ -1,16 +1,94 @@
 ﻿@using Dominio;
+@using Dominio.Enums;
 @{
     ViewData["Title"] = "Perfil";
 }
+@functions {
+    // Iniciales para el avatar (solo visual).
+    private static string Iniciales(string? nombre)
+    {
+        if (string.IsNullOrWhiteSpace(nombre)) return "?";
+        string[] partes = nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        string resultado = partes[0].Substring(0, 1);
+        if (partes.Length > 1) resultado += partes[1].Substring(0, 1);
+        return resultado.ToUpper();
+    }
+}
 
-<h4>Mi Perfil</h4>
-
-<br />
+<div class="fx-page-header">
+    <div>
+        <span class="fx-eyebrow"><i class="bi bi-person-badge"></i> Cuenta</span>
+        <h1 class="fx-page-title">Mi perfil</h1>
+        <p class="fx-page-subtitle">Sus datos de usuario y los permisos asociados a su rol.</p>
+    </div>
+</div>
 
 @if (ViewBag.Investigador != null)
 {
     Investigador unInvestigador = ViewBag.Investigador;
-    <p>@unInvestigador.Email</p>
-    <p>@unInvestigador.Nombre</p>
-    <p>@unInvestigador.Rol.ToString()</p>
+    bool esFiscal = unInvestigador.Rol == Rol.FISCAL;
+
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="fx-card fx-profile h-100">
+                <div class="fx-profile-cover"></div>
+                <div class="fx-profile-body">
+                    <div class="fx-avatar-lg">@Iniciales(unInvestigador.Nombre)</div>
+                    <h2 class="fx-profile-name">@unInvestigador.Nombre</h2>
+                    <p class="text-muted mb-3"><i class="bi bi-envelope"></i> @unInvestigador.Email</p>
+                    <span class="fx-role fx-role-lg @(esFiscal ? "fx-role-fiscal" : "fx-role-detective")">
+                        <i class="bi @(esFiscal ? "bi-bank" : "bi-search")"></i> @unInvestigador.Rol.ToString()
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 d-flex flex-column gap-4">
+            <div class="fx-card">
+                <div class="fx-card-header">
+                    <span class="fx-icon-tile"><i class="bi bi-person-lines-fill"></i></span>
+                    <h2 class="fx-card-title">Datos de la cuenta</h2>
+                </div>
+                <div class="fx-card-body">
+                    <dl class="fx-dl">
+                        <div>
+                            <dt>Email</dt>
+                            <dd>@unInvestigador.Email</dd>
+                        </div>
+                        <div>
+                            <dt>Nombre</dt>
+                            <dd>@unInvestigador.Nombre</dd>
+                        </div>
+                        <div>
+                            <dt>Rol</dt>
+                            <dd>@unInvestigador.Rol.ToString()</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="fx-card flex-grow-1">
+                <div class="fx-card-header">
+                    <span class="fx-icon-tile gold"><i class="bi bi-key"></i></span>
+                    <h2 class="fx-card-title">Permisos de su rol</h2>
+                </div>
+                <div class="fx-card-body">
+                    <ul class="fx-checklist">
+                        @if (esFiscal)
+                        {
+                            <li><i class="bi bi-check2-circle"></i> <span>Consultar todos los casos registrados en el sistema.</span></li>
+                            <li><i class="bi bi-check2-circle"></i> <span>Dar de alta nuevos casos y asignarlos a un detective.</span></li>
+                            <li><i class="bi bi-check2-circle"></i> <span>Ver el detalle, las evidencias y la recomendación de imputación de cada caso.</span></li>
+                        }
+                        else
+                        {
+                            <li><i class="bi bi-check2-circle"></i> <span>Consultar los casos que tiene asignados.</span></li>
+                            <li><i class="bi bi-check2-circle"></i> <span>Consultar el registro de sospechosos y filtrarlo por edad.</span></li>
+                            <li><i class="bi bi-check2-circle"></i> <span>Ver el detalle, las evidencias y la recomendación de imputación de cada caso.</span></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 }

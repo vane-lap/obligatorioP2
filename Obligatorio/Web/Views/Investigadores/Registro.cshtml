@@ -3,24 +3,68 @@
     ViewData["Title"] = "Registro";
 }
 
-<h4>Registro</h4>
+<div class="fx-auth">
+    <aside class="fx-auth-aside d-none d-md-flex">
+        <div>
+            <img src="~/img/emblema.svg" width="60" alt="Emblema de la Fiscalía" />
+            <h2>Únase a la investigación</h2>
+            <p>Cree su cuenta de investigador para acceder al Sistema de Gestión de Casos e Imputaciones.</p>
+        </div>
+        <ul class="fx-auth-features">
+            <li><i class="bi bi-search"></i> Los nuevos usuarios se registran con rol Detective</li>
+            <li><i class="bi bi-folder2-open"></i> Consulte los casos que se le asignen</li>
+            <li><i class="bi bi-person-vcard"></i> Acceda al registro de sospechosos</li>
+        </ul>
+        <span class="fx-auth-note"><i class="bi bi-shield-lock"></i> Su información será tratada de forma confidencial.</span>
+        <img class="fx-auth-watermark" src="~/img/emblema.svg" alt="" />
+    </aside>
 
-<br />
+    <div class="fx-auth-main">
+        <div class="fx-auth-head">
+            <img class="d-md-none mb-3" src="~/img/emblema.svg" width="44" alt="Emblema de la Fiscalía" />
+            <span class="fx-eyebrow d-flex">Nuevo investigador</span>
+            <h1 class="fx-page-title">Crear cuenta</h1>
+            <p class="fx-page-subtitle">Complete sus datos para registrarse en el sistema.</p>
+        </div>
 
-@if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger">@ViewBag.Error</div>
-}
-@if (ViewBag.Exito != null)
-{
-    <div class="alert alert-success">@ViewBag.Exito</div>
-}
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger"><i class="bi bi-exclamation-triangle-fill"></i> <span>@ViewBag.Error</span></div>
+        }
+        @if (ViewBag.Exito != null)
+        {
+            <div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> <span>@ViewBag.Exito</span></div>
+        }
 
-<br />
+        <form method="post" action="/Investigadores/Registro">
+            <div class="mb-3">
+                <label class="form-label fx-form-label" for="nombre">Nombre</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input id="nombre" type="text" class="form-control" placeholder="Ingrese el nombre" name="nombre" value="@ViewBag.Nombre" autocomplete="name" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fx-form-label" for="email">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input id="email" type="text" class="form-control" placeholder="Ingrese el email" name="email" value="@ViewBag.Email" autocomplete="email" />
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="form-label fx-form-label" for="contrasena">Contraseña</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-key"></i></span>
+                    <input id="contrasena" type="password" class="form-control" placeholder="Ingrese la contraseña" name="contrasena" value="@ViewBag.Contrasena" autocomplete="new-password" />
+                    <button class="btn btn-light" type="button" data-fx-toggle-password="contrasena" aria-label="Mostrar contraseña"><i class="bi bi-eye"></i></button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-gold btn-lg w-100"><i class="bi bi-person-plus"></i> Registrar</button>
+        </form>
 
-<form method="post" action="/Registro">
-    <input type="text" placeholder="Ingrese nombre" name="nombre" value="@ViewBag.Nombre" />
-    <input type="text" placeholder="Ingrese email" name="email" value="@ViewBag.Email" />
-    <input type="text" placeholder="Ingrese contraseña" name="contrasena" value="@ViewBag.Contrasena" />
-    <input type="submit" value="Registrar" class="btn btn-success" />
-</form>
+        <p class="fx-auth-switch">
+            ¿Ya tiene una cuenta?
+            <a asp-controller="Investigadores" asp-action="Index">Inicie sesión</a>
+        </p>
+    </div>
+</div>

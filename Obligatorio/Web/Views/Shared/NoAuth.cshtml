@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Acceso restringido";
+    string? rol = Context.Session.GetString("rol");
+}
+
+<div class="fx-card fx-status">
+    <div class="fx-status-icon"><i class="bi bi-shield-lock"></i></div>
+    <span class="fx-eyebrow">Acceso restringido</span>
+    <h1 class="fx-page-title mb-2">No tiene permisos para esta sección</h1>
+
+    @if (rol == null)
+    {
+        <p class="text-muted mb-4">Debe iniciar sesión con un usuario autorizado para continuar.</p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <a class="btn btn-primary" asp-controller="Investigadores" asp-action="Index">
+                <i class="bi bi-box-arrow-in-right"></i> Ingresar
+            </a>
+            <a class="btn btn-light" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-house-door"></i> Volver al inicio
+            </a>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted mb-4">
+            Esta sección no está disponible para su sesión actual
+            (<span class="fx-role @(rol == "FISCAL" ? "fx-role-fiscal" : "fx-role-detective")">@rol</span>).
+        </p>
+        <a class="btn btn-primary" asp-controller="Home" asp-action="Index">
+            <i class="bi bi-house-door"></i> Volver al inicio
+        </a>
+    }
+</div>

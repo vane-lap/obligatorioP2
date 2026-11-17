@@ -1,55 +1,114 @@
 ﻿@using Dominio;
 @{
     ViewData["Title"] = "Sospechosos";
+    // Solo para mostrar el filtro aplicado en pantalla.
+    string edadBuscada = Context.Request.Query["edad"].ToString();
+    bool hayFiltro = int.TryParse(edadBuscada, out int edadFiltro);
+}
+@functions {
+    // Iniciales para el avatar (solo visual).
+    private static string Iniciales(string? nombre)
+    {
+        if (string.IsNullOrWhiteSpace(nombre)) return "?";
+        string[] partes = nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        string resultado = partes[0].Substring(0, 1);
+        if (partes.Length > 1) resultado += partes[1].Substring(0, 1);
+        return resultado.ToUpper();
+    }
 }
 
-<h4>Listado de sospechosos</h4>
+<div class="fx-page-header">
+    <div>
+        <span class="fx-eyebrow"><i class="bi bi-person-vcard"></i> Registro de personas</span>
+        <h1 class="fx-page-title">Listado de sospechosos</h1>
+        <p class="fx-page-subtitle">Consulte los sospechosos registrados, sus antecedentes y filtre por edad.</p>
+    </div>
+</div>
 
-<br />
+<div class="fx-card mb-4">
+    <div class="fx-card-body">
+        <form action="/sospechosos/index" method="get" class="row g-2 align-items-end">
+            <div class="col-md">
+                <label class="form-label fx-form-label" for="edad">Edad mínima</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-funnel"></i></span>
+                    <input id="edad" type="text" inputmode="numeric" class="form-control" placeholder="Ingrese edad" name="edad" value="@edadBuscada" />
+                </div>
+            </div>
+            <div class="col-md-auto d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button>
+                <a href="/sospechosos" class="btn btn-light"><i class="bi bi-arrow-counterclockwise"></i> Limpiar búsqueda</a>
+            </div>
+        </form>
 
-<form action="/sospechosos/index" method="get">
-    <input type="text" placeholder="Ingrese edad" name="edad" />
-    <input type="submit" value="Buscar" />
-</form>
-
-<br />
-
-<a href="/sospechosos">Limpiar busqueda</a>
-
-<br />
+        @if (hayFiltro)
+        {
+            <div class="fx-filter-chip mt-3">
+                <i class="bi bi-funnel-fill"></i>
+                Mostrando sospechosos de @edadFiltro años o más
+                <a href="/sospechosos" aria-label="Quitar filtro"><i class="bi bi-x"></i></a>
+            </div>
+        }
+    </div>
+</div>
 
 @if (ViewBag.Listado != null)
 {
     if (ViewBag.Listado.Count == 0)
     {
-        <div class="alert alert-danger">No hay sospechosos en el Sistema</div>
+        <div class="fx-card">
+            <div class="fx-empty">
+                <div class="fx-empty-icon"><i class="bi bi-person-x"></i></div>
+                <p class="fx-empty-title">No hay sospechosos en el Sistema</p>
+                <p class="fx-empty-text">Pruebe con otro criterio de búsqueda o limpie el filtro.</p>
+            </div>
+        </div>
     }
     else
     {
-        <table class="table table-striped">
-            <tr>
-                <th>Nombre</th>
-                <th>Cedula</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Antecedentes</th>
-            </tr>
-            @foreach (Sospechoso s in ViewBag.Listado)
-            {
-                <tr>
-                    <td>@s.Nombre</td>
-                    <td>@s.Cedula</td>
-                    <td>@s.FechaNac.ToShortDateString()</td>
-                    @if (s.TieneAntecedente)
-                    {
-                        <td>Si</td>
-                    }
-                    else
-                    {
-                        <td>No</td>
-                    }
-                </tr>
-            }
-        </table>
-        
+        <div class="fx-card fx-table-card">
+            <div class="fx-card-header">
+                <span class="fx-icon-tile danger"><i class="bi bi-people"></i></span>
+                <h2 class="fx-card-title me-auto">Sospechosos</h2>
+                <span class="fx-pill fx-pill-navy">@ViewBag.Listado.Count resultados</span>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover fx-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cédula</th>
+                            <th>Fecha de nacimiento</th>
+                            <th>Antecedentes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Sospechoso s in ViewBag.Listado)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="fx-person">
+                                        <span class="fx-avatar danger">@Iniciales(s.Nombre)</span>
+                                        <span class="fx-person-meta fx-cell-title">@s.Nombre</span>
+                                    </div>
+                                </td>
+                                <td><span class="fx-mono">@s.Cedula</span></td>
+                                <td class="text-nowrap"><i class="bi bi-calendar3 text-muted me-1"></i> @s.FechaNac.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (s.TieneAntecedente)
+                                    {
+                                        <span class="fx-pill fx-pill-danger"><i class="bi bi-exclamation-circle"></i> Sí</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fx-pill fx-pill-success"><i class="bi bi-check-circle"></i> No</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     }
 }

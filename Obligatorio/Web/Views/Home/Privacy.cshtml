@@ -1,6 +1,60 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Política de privacidad";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="fx-page-header">
+    <div>
+        <span class="fx-eyebrow"><i class="bi bi-shield-lock"></i> Confidencialidad</span>
+        <h1 class="fx-page-title">@ViewData["Title"]</h1>
+        <p class="fx-page-subtitle">Cómo se protege la información gestionada en el Sistema de Gestión de Casos e Imputaciones.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="fx-card">
+            <div class="fx-card-body">
+                <ul class="fx-checklist">
+                    <li>
+                        <i class="bi bi-lock-fill"></i>
+                        <div>
+                            <strong>Información confidencial.</strong>
+                            Los datos de casos, evidencias y sospechosos son reservados y de uso exclusivo del personal autorizado de la fiscalía.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="bi bi-person-check-fill"></i>
+                        <div>
+                            <strong>Acceso según rol.</strong>
+                            Cada usuario accede únicamente a las secciones habilitadas para su rol (Fiscal o Detective).
+                        </div>
+                    </li>
+                    <li>
+                        <i class="bi bi-folder-check"></i>
+                        <div>
+                            <strong>Finalidad.</strong>
+                            La información se utiliza solo para la gestión de las investigaciones y la evaluación de imputaciones.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="bi bi-box-arrow-right"></i>
+                        <div>
+                            <strong>Sesión.</strong>
+                            Al finalizar su jornada, cierre la sesión con la opción <em>Salir</em> para proteger el acceso a la información.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="fx-card fx-card-body h-100 d-flex flex-column align-items-start gap-2">
+            <span class="fx-icon-tile fx-icon-tile-lg gold"><i class="bi bi-shield-check"></i></span>
+            <h2 class="h6 fw-bold mt-2 mb-1">Uso responsable</h2>
+            <p class="text-muted small mb-0">
+                El uso indebido de la información contenida en el sistema puede comprometer investigaciones en curso.
+                Ante cualquier duda, consulte con el fiscal a cargo.
+            </p>
+        </div>
+    </div>
+</div>

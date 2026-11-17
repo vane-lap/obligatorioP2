@@ -1,44 +1,164 @@
 ﻿@using Dominio;
 @{
     ViewData["Title"] = "Casos";
+    string? rol = Context.Session.GetString("rol");
+}
+@functions {
+    // Iniciales para el avatar (solo visual).
+    private static string Iniciales(string? nombre)
+    {
+        if (string.IsNullOrWhiteSpace(nombre)) return "?";
+        string[] partes = nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        string resultado = partes[0].Substring(0, 1);
+        if (partes.Length > 1) resultado += partes[1].Substring(0, 1);
+        return resultado.ToUpper();
+    }
 }
 
-<h4>Listado de casos</h4>
-
-<br />
+<div class="fx-page-header">
+    <div>
+        <span class="fx-eyebrow"><i class="bi bi-folder2-open"></i> Expedientes</span>
+        <h1 class="fx-page-title">Listado de casos</h1>
+        <p class="fx-page-subtitle">
+            @(rol == "DETECTIVE"
+                ? "Casos que tiene asignados como detective."
+                : "Todos los casos registrados en el sistema.")
+        </p>
+    </div>
+    @if (rol == "FISCAL")
+    {
+        <a class="btn btn-gold" asp-controller="Casos" asp-action="AltaCaso">
+            <i class="bi bi-plus-lg"></i> Nuevo caso
+        </a>
+    }
+</div>
 
 @if (ViewBag.Listado != null)
 {
     if (ViewBag.Listado.Count == 0)
     {
-        <div class="alert alert-danger">No hay casos en el Sistema</div>
+        <div class="fx-card">
+            <div class="fx-empty">
+                <div class="fx-empty-icon"><i class="bi bi-folder-x"></i></div>
+                <p class="fx-empty-title">No hay casos en el Sistema</p>
+                <p class="fx-empty-text">Cuando se registren casos aparecerán en este listado.</p>
+            </div>
+        </div>
     }
     else
     {
-        <table class="table table-striped">
-            <tr>
-                <th>Id</th>
-                <th>Caso</th>
-                <th>Descripcion</th>
-                <th>Investigador</th>
-                <th>Sospechoso</th>
-                <th>Cerrado</th>
-                <th>Peso de Evidencias</th>
-                <th>Acciones</th>
-            </tr>
-            @foreach (Caso c in ViewBag.Listado)
-            {
-                <tr>
-                    <td>@c.Id</td>
-                    <td>@c.Nombre</td>
-                    <td>@c.Descripcion</td>
-                    <td>@c.Investigador.Nombre</td>
-                    <td>@c.Sospechoso.Nombre</td>
-                    @if (c.Cerrado) {<td>Si</td>} else {<td>No</td>}
-                    <td>@c.CalcularPesoDeEvidencias()</td>
-                    <td><a href="/casos/detalles/@c.Id">Ver</a></td>
-                </tr>
-            }
-        </table>
+        int total = ViewBag.Listado.Count;
+        int cerrados = 0;
+        foreach (Caso caso in ViewBag.Listado)
+        {
+            if (caso.Cerrado) cerrados++;
+        }
+        int abiertos = total - cerrados;
+
+        <div>
+            <div class="row g-3 mb-4">
+                <div class="col-sm-4">
+                    <div class="fx-card fx-stat">
+                        <span class="fx-icon-tile fx-icon-tile-lg"><i class="bi bi-folder2"></i></span>
+                        <div>
+                            <div class="fx-stat-value">@total</div>
+                            <div class="fx-stat-label">Casos en total</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="fx-card fx-stat">
+                        <span class="fx-icon-tile fx-icon-tile-lg success"><i class="bi bi-unlock"></i></span>
+                        <div>
+                            <div class="fx-stat-value">@abiertos</div>
+                            <div class="fx-stat-label">Abiertos</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="fx-card fx-stat">
+                        <span class="fx-icon-tile fx-icon-tile-lg neutral"><i class="bi bi-lock"></i></span>
+                        <div>
+                            <div class="fx-stat-value">@cerrados</div>
+                            <div class="fx-stat-label">Cerrados</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fx-card fx-table-card">
+                <div class="table-responsive">
+                    <table class="table table-hover fx-table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Caso</th>
+                                <th>Investigador</th>
+                                <th>Sospechoso</th>
+                                <th>Estado</th>
+                                <th>Peso de evidencias</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Caso c in ViewBag.Listado)
+                            {
+                                int peso = c.CalcularPesoDeEvidencias();
+                                string nivel = peso < 30 ? "bajo" : (peso < 70 ? "medio" : "alto");
+                                string nivelTexto = peso < 30 ? "Desestimado" : (peso < 70 ? "Continuar investigando" : "Imputación inminente");
+                                <tr>
+                                    <td><span class="fx-id">#@c.Id</span></td>
+                                    <td>
+                                        <span class="fx-cell-title">@c.Nombre</span>
+                                        <span class="fx-cell-sub" title="@c.Descripcion">@c.Descripcion</span>
+                                    </td>
+                                    <td>
+                                        <div class="fx-person">
+                                            <span class="fx-avatar">@Iniciales(c.Investigador.Nombre)</span>
+                                            <span class="fx-person-meta">@c.Investigador.Nombre</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="fx-person">
+                                            <span class="fx-avatar danger">@Iniciales(c.Sospechoso.Nombre)</span>
+                                            <span class="fx-person-meta">@c.Sospechoso.Nombre</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if (c.Cerrado)
+                                        {
+                                            <span class="fx-pill fx-pill-neutral"><i class="bi bi-lock-fill"></i> Cerrado</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="fx-pill fx-pill-success fx-pill-dot">Abierto</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="fx-meter" title="@nivelTexto">
+                                            <div class="fx-meter-track">
+                                                <div class="fx-meter-fill @nivel" style="width: @(peso)%"></div>
+                                            </div>
+                                            <span class="fx-meter-value">@peso</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="/casos/detalles/@c.Id" class="btn btn-sm btn-outline-navy">
+                                            <i class="bi bi-eye"></i> Ver
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <ul class="fx-legend">
+                <li><span class="sw" style="background: var(--fx-peso-bajo)"></span> Desestimado (&lt; 30)</li>
+                <li><span class="sw" style="background: var(--fx-peso-medio)"></span> Continuar investigando (30–69)</li>
+                <li><span class="sw" style="background: var(--fx-peso-alto)"></span> Imputación inminente (≥ 70)</li>
+            </ul>
+        </div>
     }
 }
