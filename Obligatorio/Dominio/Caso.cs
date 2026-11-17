@@ -174,6 +174,10 @@ namespace Dominio
             return listaRetorno;
         }
 
+        public int CompareTo(Caso? other)
+        {
+            return this._nombre.CompareTo(other._nombre);
+        }
 
     }
 }
