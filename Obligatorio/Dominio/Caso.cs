@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Dominio
 {
-    public class Caso : IValidable
+    public class Caso : IValidable , IComparable<Caso>
     {
         #region ATRIBUTOS
         private int _id;
