@@ -22,7 +22,7 @@ namespace Dominio
         public override void Validar()
         {
             base.Validar();
-            if (_calidad <= 0 && _calidad > 5) throw new Exception("Debe de ser un número del 1 al 5");
+            if (_calidad <= 0 || _calidad > 5) throw new Exception("Debe de ser un número del 1 al 5");
             
         }
         

@@ -265,6 +265,7 @@ namespace Dominio
                     listaRetorno.Add(unC);
                 }
             }
+            listaRetorno.Sort();
             return listaRetorno;
         }
 

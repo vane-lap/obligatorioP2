@@ -1,95 +1,363 @@
 ﻿@using Dominio;
+@using Dominio.Enums;
 @{
-    ViewData["Title"] = "Detalle";
+    ViewData["Title"] = "Detalle del caso";
 }
-
-<h4>Detalles</h4>
-
-<br />
+@functions {
+    // Iniciales para el avatar (solo visual).
+    private static string Iniciales(string? nombre)
+    {
+        if (string.IsNullOrWhiteSpace(nombre)) return "?";
+        string[] partes = nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        string resultado = partes[0].Substring(0, 1);
+        if (partes.Length > 1) resultado += partes[1].Substring(0, 1);
+        return resultado.ToUpper();
+    }
+}
 
 @if (ViewBag.Caso != null)
 {
     Caso unCaso = ViewBag.Caso;
-    <p>@unCaso.Id</p>
-    <p>@unCaso.Nombre</p>
-    <p>@unCaso.Descripcion</p>
-    <p>@unCaso.Investigador.Nombre</p>
-    <p>@unCaso.Sospechoso.Nombre</p>
-    @if (unCaso.Cerrado)
+
+    // Datos de presentación
+    int peso = unCaso.CalcularPesoDeEvidencias();
+    string recomendacion = unCaso.RecomendarImputacion();
+    string veredicto = recomendacion;
+    string detalleVeredicto = "";
+    int separador = recomendacion.IndexOf(':');
+    if (separador > 0)
     {
-        <p>Es cerrado</p>
+        veredicto = recomendacion.Substring(0, separador);
+        detalleVeredicto = recomendacion.Substring(separador + 1).Trim();
     }
-    else
-    {
-        <p>No esta cerrado</p>
-    }
-    <p>@unCaso.RecomendarImputacion()</p>
+    string tono = peso < 30 ? "desestimado" : (peso < 70 ? "continuar" : "imputacion");
+    string iconoVeredicto = peso < 30 ? "bi-x-octagon" : (peso < 70 ? "bi-hourglass-split" : "bi-exclamation-triangle-fill");
 
-    <table class="table table-striped">
-        <tr>
-            <th>Descripcion</th>
-            <th>Fecha</th>
-            <th>Tiene huellas</th>
-        </tr>
-        @foreach (Fisica f in ViewBag.Fisicas)
-        {
-            <tr>
-                <td>@f.Descripcion</td>
-                <td>@f.Fecha.ToShortDateString()</td>
-                @if (f.TieneHuellas)
-                {
-                    <td>Si</td>
-                }
-                else
-                {
-                    <td>No</td>
-                }
-            </tr>
-        }
-    </table>
+    <div>
+        <a class="fx-back" asp-controller="Casos" asp-action="Index"><i class="bi bi-arrow-left"></i> Volver al listado</a>
 
+        <div class="fx-page-header">
+            <div>
+                <span class="fx-eyebrow"><i class="bi bi-folder2-open"></i> Expediente N.º @unCaso.Id</span>
+                <h1 class="fx-page-title">@unCaso.Nombre</h1>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    @if (unCaso.Cerrado)
+                    {
+                        <span class="fx-pill fx-pill-neutral"><i class="bi bi-lock-fill"></i> Caso cerrado</span>
+                    }
+                    else
+                    {
+                        <span class="fx-pill fx-pill-success fx-pill-dot">Caso abierto</span>
+                    }
+                    <span class="fx-pill fx-pill-navy"><i class="bi bi-collection"></i> @unCaso.Evidencias.Count evidencias</span>
+                </div>
+            </div>
+        </div>
 
-    <table class="table table-striped">
-        <tr>
-            <th>Descripcion</th>
-            <th>Fecha</th>
-            <th>Infraganti</th>
-            <th>Calidad</th>
-        </tr>
-        @foreach (Grabacion g in ViewBag.Grabaciones)
-        {
-            <tr>
-                <td>@g.Descripcion</td>
-                <td>@g.Fecha.ToShortDateString()</td>
-                @if (g.Infraganti)
-                {
-                    <td>Si</td>
-                }
-                else
-                {
-                    <td>No</td>
-                }
-                <td>@g.Calidad</td>
-            </tr>
-        }
-    </table>
+        <div class="row g-4">
+            <!-- Datos del caso -->
+            <div class="col-lg-7">
+                <div class="fx-card h-100">
+                    <div class="fx-card-header">
+                        <span class="fx-icon-tile"><i class="bi bi-file-earmark-text"></i></span>
+                        <div>
+                            <h2 class="fx-card-title">Datos del caso</h2>
+                            <p class="fx-card-subtitle">Información general del expediente</p>
+                        </div>
+                    </div>
+                    <div class="fx-card-body">
+                        <dl class="fx-dl">
+                            <div>
+                                <dt>Id</dt>
+                                <dd><span class="fx-id">#@unCaso.Id</span></dd>
+                            </div>
+                            <div>
+                                <dt>Nombre</dt>
+                                <dd>@unCaso.Nombre</dd>
+                            </div>
+                            <div class="fx-dl-full">
+                                <dt>Descripción</dt>
+                                <dd>@unCaso.Descripcion</dd>
+                            </div>
+                            <div>
+                                <dt>Investigador</dt>
+                                <dd>
+                                    <div class="fx-person">
+                                        <span class="fx-avatar">@Iniciales(unCaso.Investigador.Nombre)</span>
+                                        <span class="fx-person-meta">
+                                            @unCaso.Investigador.Nombre
+                                            <small>@unCaso.Investigador.Email</small>
+                                        </span>
+                                    </div>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>Sospechoso</dt>
+                                <dd>
+                                    <div class="fx-person">
+                                        <span class="fx-avatar danger">@Iniciales(unCaso.Sospechoso.Nombre)</span>
+                                        <span class="fx-person-meta">
+                                            @unCaso.Sospechoso.Nombre
+                                            <small>CI <span class="fx-mono">@unCaso.Sospechoso.Cedula</span></small>
+                                        </span>
+                                    </div>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>El caso</dt>
+                                <dd>
+                                    @if (unCaso.Cerrado)
+                                    {
+                                        <span class="fx-pill fx-pill-neutral"><i class="bi bi-lock-fill"></i> Es cerrado</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fx-pill fx-pill-success fx-pill-dot">No está cerrado</span>
+                                    }
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>Antecedentes del sospechoso</dt>
+                                <dd>
+                                    @if (unCaso.Sospechoso.TieneAntecedente)
+                                    {
+                                        <span class="fx-pill fx-pill-danger"><i class="bi bi-exclamation-circle"></i> Con antecedentes</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fx-pill fx-pill-success"><i class="bi bi-check-circle"></i> Sin antecedentes</span>
+                                    }
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
 
-    <table class="table table-striped">
-        <tr>
-            <th>Descripcion</th>
-            <th>Fecha</th>
-            <th>Nombre</th>
-            <th>Credibilidad</th>
-        </tr>
-        @foreach (Testimonio t in ViewBag.Testimonios)
-        {
-            <tr>
-                <td>@t.Descripcion</td>
-                <td>@t.Fecha.ToShortDateString()</td>
-                <td>@t.Nombre</td>
-                <td>@t.Credibilidad</td>
-            </tr>
-        }
-    </table>
-  
+            <!-- Recomendación de imputación -->
+            <div class="col-lg-5">
+                <div class="fx-card h-100">
+                    <div class="fx-card-header">
+                        <span class="fx-icon-tile gold"><i class="bi bi-clipboard-data"></i></span>
+                        <div>
+                            <h2 class="fx-card-title">Recomendación de imputación</h2>
+                            <p class="fx-card-subtitle">Basada en el peso de la prueba</p>
+                        </div>
+                    </div>
+                    <div class="fx-card-body">
+                        <div class="fx-verdict @tono">
+                            <span class="fx-verdict-icon"><i class="bi @iconoVeredicto"></i></span>
+                            <div>
+                                <div class="fx-verdict-title">@veredicto</div>
+                                @if (!string.IsNullOrEmpty(detalleVeredicto))
+                                {
+                                    <p class="fx-verdict-text">@detalleVeredicto</p>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <div class="text-muted small fw-semibold text-uppercase" style="letter-spacing:.07em">Peso de la prueba</div>
+                                <div class="fx-peso">@peso<small> / 100</small></div>
+                            </div>
+                        </div>
+                        <div class="fx-scale" role="img" aria-label="Peso de la prueba: @peso de 100">
+                            <span class="fx-scale-marker" style="left: @(peso)%"></span>
+                        </div>
+                        <div class="fx-scale-ticks">
+                            <span style="left: 0%">0</span>
+                            <span style="left: 30%">30</span>
+                            <span style="left: 70%">70</span>
+                            <span style="left: 100%">100</span>
+                        </div>
+                        <ul class="fx-legend">
+                            <li><span class="sw" style="background: var(--fx-peso-bajo)"></span> Desestimado</li>
+                            <li><span class="sw" style="background: var(--fx-peso-medio)"></span> Continuar</li>
+                            <li><span class="sw" style="background: var(--fx-peso-alto)"></span> Imputación</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="fx-section-title"><i class="bi bi-collection text-secondary"></i> Evidencias del caso</h2>
+
+        <!-- Evidencias físicas -->
+        <div class="fx-card fx-table-card mb-4">
+            <div class="fx-card-header">
+                <span class="fx-icon-tile"><i class="bi bi-fingerprint"></i></span>
+                <div class="me-auto">
+                    <h3 class="fx-card-title">Evidencias físicas</h3>
+                    <p class="fx-card-subtitle">Objetos y rastros materiales del caso</p>
+                </div>
+                <span class="fx-pill fx-pill-navy">@ViewBag.Fisicas.Count</span>
+            </div>
+            @if (ViewBag.Fisicas.Count == 0)
+            {
+                <div class="fx-empty fx-empty-sm">
+                    <div class="fx-empty-icon"><i class="bi bi-fingerprint"></i></div>
+                    <p class="fx-empty-text">No hay evidencias físicas en el caso</p>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover fx-table">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Fecha</th>
+                                <th>Tiene huellas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Fisica f in ViewBag.Fisicas)
+                            {
+                                <tr>
+                                    <td class="fx-cell-title">@f.Descripcion</td>
+                                    <td class="text-nowrap"><i class="bi bi-calendar3 text-muted me-1"></i> @f.Fecha.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        @if (f.TieneHuellas)
+                                        {
+                                            <span class="fx-pill fx-pill-warning"><i class="bi bi-fingerprint"></i> Sí</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="fx-pill fx-pill-neutral">No</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+
+        <!-- Grabaciones -->
+        <div class="fx-card fx-table-card mb-4">
+            <div class="fx-card-header">
+                <span class="fx-icon-tile danger"><i class="bi bi-camera-video"></i></span>
+                <div class="me-auto">
+                    <h3 class="fx-card-title">Grabaciones</h3>
+                    <p class="fx-card-subtitle">Registros de video vinculados al caso</p>
+                </div>
+                <span class="fx-pill fx-pill-navy">@ViewBag.Grabaciones.Count</span>
+            </div>
+            @if (ViewBag.Grabaciones.Count == 0)
+            {
+                <div class="fx-empty fx-empty-sm">
+                    <div class="fx-empty-icon"><i class="bi bi-camera-video-off"></i></div>
+                    <p class="fx-empty-text">No hay grabaciones en el caso</p>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover fx-table">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Fecha</th>
+                                <th>Infraganti</th>
+                                <th>Calidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Grabacion g in ViewBag.Grabaciones)
+                            {
+                                <tr>
+                                    <td class="fx-cell-title">@g.Descripcion</td>
+                                    <td class="text-nowrap"><i class="bi bi-calendar3 text-muted me-1"></i> @g.Fecha.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        @if (g.Infraganti)
+                                        {
+                                            <span class="fx-pill fx-pill-danger"><i class="bi bi-record-circle"></i> Sí</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="fx-pill fx-pill-neutral">No</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="fx-stars" title="Calidad @g.Calidad de 5">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="bi @(i <= g.Calidad ? "bi-star-fill" : "bi-star off")"></i>
+                                            }
+                                            <span class="ms-1 text-muted small">@g.Calidad/5</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+
+        <!-- Testimonios -->
+        <div class="fx-card fx-table-card">
+            <div class="fx-card-header">
+                <span class="fx-icon-tile gold"><i class="bi bi-chat-quote"></i></span>
+                <div class="me-auto">
+                    <h3 class="fx-card-title">Testimonios</h3>
+                    <p class="fx-card-subtitle">Declaraciones de testigos</p>
+                </div>
+                <span class="fx-pill fx-pill-navy">@ViewBag.Testimonios.Count</span>
+            </div>
+            @if (ViewBag.Testimonios.Count == 0)
+            {
+                <div class="fx-empty fx-empty-sm">
+                    <div class="fx-empty-icon"><i class="bi bi-chat-square"></i></div>
+                    <p class="fx-empty-text">No hay testimonios en el caso</p>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover fx-table">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Fecha</th>
+                                <th>Nombre</th>
+                                <th>Credibilidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Testimonio t in ViewBag.Testimonios)
+                            {
+                                <tr>
+                                    <td class="fx-cell-title">@t.Descripcion</td>
+                                    <td class="text-nowrap"><i class="bi bi-calendar3 text-muted me-1"></i> @t.Fecha.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <div class="fx-person">
+                                            <span class="fx-avatar gold">@Iniciales(t.Nombre)</span>
+                                            <span class="fx-person-meta">@t.Nombre</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if (t.Credibilidad == Credibilidad.ALTO)
+                                        {
+                                            <span class="fx-pill fx-pill-success fx-pill-dot">Alta</span>
+                                        }
+                                        else if (t.Credibilidad == Credibilidad.MEDIO)
+                                        {
+                                            <span class="fx-pill fx-pill-warning fx-pill-dot">Media</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="fx-pill fx-pill-neutral fx-pill-dot">Baja</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
 }

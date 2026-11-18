@@ -9,7 +9,7 @@ namespace Web.Controllers
         Sistema miSistema = Sistema.Instancia;
         public IActionResult Index(int? edad)
         {
-            if ((HttpContext.Session.GetString("rol") == null) || (HttpContext.Session.GetString("rol") != Rol.DETECTIVE.ToString())) return View("NoAuth");
+            if ((HttpContext.Session.GetString("rol") == null) || (HttpContext.Session.GetString("rol") != "DETECTIVE")) return View("NoAuth");
             if (edad == null)
             {
                 ViewBag.Listado = miSistema.Sospechosos;
