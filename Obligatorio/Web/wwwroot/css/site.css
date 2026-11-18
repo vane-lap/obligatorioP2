@@ -875,11 +875,6 @@ a {
   justify-content: center;
 }
 
-.input-group .btn-light {
-  --bs-btn-border-radius: var(--fx-radius-sm);
-  color: var(--fx-muted);
-}
-
 .form-check-input {
   background-color: #fff;
   border-color: #b9c3d3;
